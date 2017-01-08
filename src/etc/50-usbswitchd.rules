@@ -1,0 +1,12 @@
+# Install this file in /etc/udev/rules.d/
+
+# inserire i riferimenti corretti del pedale usb
+
+SUBSYSTEM !="usb_device", ACTION !="add", GOTO="device_rules_end"
+SYSFS{idVendor}=="0xc45", SYSFS{idProduct}=="0x7403", SYMLINK+="mydevice"
+MODE="0666", GROUP="plugdev"
+LABEL="device_rules_end"
+
+## add user to the plugdev group and reboot
+# adduser ale plugdev
+

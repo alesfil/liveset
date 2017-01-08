@@ -1,0 +1,68 @@
+INSTALL
+## root user
+python setup.py install
+
+## or (without python eggs)
+python setup.py install --single-version-externally-managed --root=/
+
+## install the udev rule
+install_udev-rules.sh
+adduser <user> plugdev
+
+## reboot (in order to load the udev rule)
+
+KNOWN BUGS
+Insert idVendor and idProduct by hand in /etc/udev/rules.d/50-usbswitchd.rules
+(idVendor and idProduct are stored in $HOME/.config/liveset/settings.json and 
+visible in the settings window)
+
+TO DO
+* github
+* il file udev deve essere fatto in sede di configurazione (user) perchè prende i dati da device usb
+milestone 0.8 se si vuole usare il programma come midirouter - usare MIDICH REC, MIDICHTRASM, HighKey, LowKey (vedere prima su mididings come funzionano)
+
+CHANGELOG
+0.7.1
+- fixed a bug in scenes listbox in edit page
+
+0.7
+- setlist and scenes data in one .json file
+- class Data for common file operations
+- better updating of switchmode_file
+- clean up of the code
+- open, save, save as .json files
+- toolbar
+- listctrl for setlist
+- Midi in/out port settings
+- fixed bug: usbswitchd not terminated on restarting session
+
+0.6
+- code divided in modules and prepared to packaging
+- external programs called with subprocess.Popen()
+- fixed bug: subprograms not terminated
+- startsession in setlist
+- setlist in json format
+- usb switch can now switch scene or subscene (lockfiles in .cache/liveset)
+- usbswitchd in python2
+- settings: USB configuration e switch learn
+
+0.5
+- MIDI CH added 
+- scene editor
+- part (zones) editor
+- option window (settings)
+
+0.4
+- gui in wxpython
+- CC32 added
+- start session from gui
+
+0.3
+- data of the scenes in a different file
+- usbswitch: sleep() for cpu load
+
+
+
+
+
+

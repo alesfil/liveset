@@ -1,0 +1,2 @@
+include src/etc/*.rules
+include install_udev-rules.sh
