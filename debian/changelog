@@ -1,0 +1,11 @@
+liveset (0.7.1-1) UNRELEASED; urgency=medium
+
+  * Closes bug in scenes list box in edit page
+
+ -- Alessandro Filippo <ale@debaudio.habanadomain.org>  Mon, 02 Jan 2017 18:41:31 +0100
+
+liveset (0.7-1) unstable; urgency=low
+
+  * Initial release (Closes: #nnnn)  <nnnn is the bug number of your ITP>
+
+ -- Alessandro Filippo <alessandro.filippo@infinito.it>  Fri, 30 Dec 2016 16:46:34 +0100

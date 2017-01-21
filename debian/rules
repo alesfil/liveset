@@ -1,0 +1,6 @@
+#!/usr/bin/make -f
+# -*- makefile -*-
+
+# main packaging script based on dh7 syntax
+%:
+	dh $@
