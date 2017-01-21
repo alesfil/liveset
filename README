@@ -3,6 +3,7 @@ mididings
 pyliblo
 pyusb
 alsa-utils
+wmctrl
 
 ## INSTALL
 python setup.py install

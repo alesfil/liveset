@@ -124,7 +124,7 @@ class MainWindow(wx.Frame):
 
          time.sleep(3)
 #         self.p_usbswitchd = subprocess.Popen(os.path.join(modules_dir,"dings","usbswitchd.py"))
-         self.p_usbswitchd = subprocess.Popen("usbswitchd.py")
+## provvvisorio         self.p_usbswitchd = subprocess.Popen("usbswitchd.py")
 
          # maximize livedings window
          subprocess.Popen(["wmctrl","-r","livedings","-b","add,fullscreen"]) 
@@ -164,7 +164,7 @@ Copyright (C) 2016 Alessandro Filippo'''
 
     def OnOptions(self, event):
         settingsWindow = SettingsWindow()
-        settingsWindow.Show()
+	settingsWindow.Show()
 
     def OnQuit(self, event):
         # send a EVT_CLOSE, calling OnClose()
