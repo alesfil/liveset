@@ -1,9 +1,9 @@
 Package: liveset
-Version: 0.7.1-1
+Version: 0.7.1-2
 Architecture: all
 Maintainer: Alessandro Filippo <alessandro.filippo@infinito.it>
-Installed-Size: 106
-Depends: mididings, python-liblo, python-usb (>= 1.0.0~b2), alsa-utils
+Installed-Size: 109
+Depends: mididings, python-liblo, python-usb (>= 1.0.0~b2), alsa-utils, wmctrl
 Section: unknown
 Priority: optional
 Homepage: <insert the upstream URL, if relevant>

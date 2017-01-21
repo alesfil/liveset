@@ -23,8 +23,9 @@ class SettingsWindow(wx.Frame):
         self.midiOutPortComboBox = wx.ComboBox(panel)
         self.midiOutPortComboBox.SetItems(self.midiPorts('out'))
 
-        nextSubsceneCCText = wx.StaticText(panel, label="Next-subscene MIDI CC")
-        nextSubsceneUSBStaticBox = wx.StaticBox(panel, label="Next-subscene USB Switch")
+        nextSceneCCText = wx.StaticText(panel, label="Switch Scene MIDI CC")
+        nextSubsceneCCText = wx.StaticText(panel, label="Switch Subscene MIDI CC")
+        nextSubsceneUSBStaticBox = wx.StaticBox(panel, label="Switch Subscene USB Switch")
 
         idVendorUSBText = wx.StaticText(panel, label="USB Switch idVendor")
         idProductUSBText = wx.StaticText(panel, label="USB Switch idProduct")
@@ -38,6 +39,8 @@ class SettingsWindow(wx.Frame):
         self.idProductUSBTextCtrl.Disable()
         self.dataIndexUSBTextCtrl.Disable()
         self.dataValueUSBTextCtrl.Disable()
+        self.nextSceneCCSpinCtrl = wx.SpinCtrl(panel, value ='0')
+        self.nextSceneCCSpinCtrl.SetRange(0, 127)
         self.nextSubsceneCCSpinCtrl = wx.SpinCtrl(panel, value ='0')
         self.nextSubsceneCCSpinCtrl.SetRange(0, 127)
 
@@ -54,42 +57,46 @@ class SettingsWindow(wx.Frame):
         hbox6 = wx.BoxSizer(wx.HORIZONTAL)
         hbox7 = wx.BoxSizer(wx.HORIZONTAL)
         hbox8 = wx.BoxSizer(wx.HORIZONTAL)
+        hbox9 = wx.BoxSizer(wx.HORIZONTAL)
 
         hbox1.Add(midiInPortText, 1,  wx.EXPAND |wx.ALL, 5)
         hbox1.Add(self.midiInPortComboBox, 1,  wx.EXPAND |wx.ALL, 5)
         hbox2.Add(midiOutPortText, 1,  wx.EXPAND |wx.ALL, 5)
         hbox2.Add(self.midiOutPortComboBox, 1,  wx.EXPAND |wx.ALL, 5)
-        hbox3.Add(nextSubsceneCCText, 1,  wx.EXPAND |wx.ALL, 5)
-        hbox3.Add(self.nextSubsceneCCSpinCtrl, 1, wx.EXPAND |wx.ALL, 5)
+        hbox3.Add(nextSceneCCText, 1,  wx.EXPAND |wx.ALL, 5)
+        hbox3.Add(self.nextSceneCCSpinCtrl, 1, wx.EXPAND |wx.ALL, 5)
+        hbox4.Add(nextSubsceneCCText, 1,  wx.EXPAND |wx.ALL, 5)
+        hbox4.Add(self.nextSubsceneCCSpinCtrl, 1, wx.EXPAND |wx.ALL, 5)
 
-        hbox4.Add(idVendorUSBText, 1, wx.EXPAND |wx.ALL, 5)
-        hbox4.Add(self.idVendorUSBTextCtrl, 1, wx.EXPAND |wx.ALL, 5)
-        hbox5.Add(idProductUSBText, 1,wx.EXPAND | wx.ALL, 5)
-        hbox5.Add(self.idProductUSBTextCtrl, 1, wx.EXPAND |wx.ALL, 5)
-        hbox6.Add(dataIndexUSBText, 1,  wx.EXPAND |wx.ALL, 5)
-        hbox6.Add(self.dataIndexUSBTextCtrl, 1,  wx.EXPAND |wx.ALL, 5)
-        hbox7.Add(dataValueUSBText, 1,  wx.EXPAND |wx.ALL, 5)
-        hbox7.Add(self.dataValueUSBTextCtrl, 1,  wx.EXPAND |wx.ALL, 5)
-        hbox8.Add(findButton, 1, wx.EXPAND |wx.ALL, 5) 
-        hbox8.Add(learnButton, 1, wx.EXPAND |wx.ALL, 5)         
+        hbox5.Add(idVendorUSBText, 1, wx.EXPAND |wx.ALL, 5)
+        hbox5.Add(self.idVendorUSBTextCtrl, 1, wx.EXPAND |wx.ALL, 5)
+        hbox6.Add(idProductUSBText, 1,wx.EXPAND | wx.ALL, 5)
+        hbox6.Add(self.idProductUSBTextCtrl, 1, wx.EXPAND |wx.ALL, 5)
+        hbox7.Add(dataIndexUSBText, 1,  wx.EXPAND |wx.ALL, 5)
+        hbox7.Add(self.dataIndexUSBTextCtrl, 1,  wx.EXPAND |wx.ALL, 5)
+        hbox8.Add(dataValueUSBText, 1,  wx.EXPAND |wx.ALL, 5)
+        hbox8.Add(self.dataValueUSBTextCtrl, 1,  wx.EXPAND |wx.ALL, 5)
+        hbox9.Add(findButton, 1, wx.EXPAND |wx.ALL, 5) 
+        hbox9.Add(learnButton, 1, wx.EXPAND |wx.ALL, 5)         
 
         staticBoxSizer = wx.StaticBoxSizer(nextSubsceneUSBStaticBox, wx.VERTICAL)
-        staticBoxSizer.Add(hbox4, 0, wx.EXPAND |wx.ALL, 5) 
-        staticBoxSizer.Add(hbox5, 0, wx.EXPAND |wx.ALL, 5)
-        staticBoxSizer.Add(hbox6, 0, wx.EXPAND | wx.ALL, 5)
-        staticBoxSizer.Add(hbox7, 0, wx.EXPAND |wx.ALL, 5)
-        staticBoxSizer.Add(hbox8, 0, wx.EXPAND | wx.ALL, 5) 
+        staticBoxSizer.Add(hbox5, 0, wx.EXPAND |wx.ALL, 5) 
+        staticBoxSizer.Add(hbox6, 0, wx.EXPAND |wx.ALL, 5)
+        staticBoxSizer.Add(hbox7, 0, wx.EXPAND | wx.ALL, 5)
+        staticBoxSizer.Add(hbox8, 0, wx.EXPAND |wx.ALL, 5)
+        staticBoxSizer.Add(hbox9, 0, wx.EXPAND | wx.ALL, 5) 
 
-        hbox9 = wx.BoxSizer(wx.HORIZONTAL)
-        hbox9.Add(applyButton, 1, wx.EXPAND | wx.ALL , 10)
-        hbox9.Add(closeButton, 1, wx.EXPAND | wx.ALL , 10)   
+        hbox10 = wx.BoxSizer(wx.HORIZONTAL)
+        hbox10.Add(applyButton, 1, wx.EXPAND | wx.ALL , 10)
+        hbox10.Add(closeButton, 1, wx.EXPAND | wx.ALL , 10)   
 
         vbox = wx.BoxSizer(wx.VERTICAL)
         vbox.Add(hbox1, 0, wx.EXPAND |wx.ALL, 5) 
         vbox.Add(hbox2, 0, wx.EXPAND |wx.ALL, 5)
-        vbox.Add(hbox3, 0, wx.EXPAND |wx.ALL, 5)  
+        vbox.Add(hbox3, 0, wx.EXPAND |wx.ALL, 5)
+        vbox.Add(hbox4, 0, wx.EXPAND |wx.ALL, 5)    
         vbox.Add(staticBoxSizer, 0, wx.EXPAND | wx.ALL, 5)
-        vbox.Add(hbox9, 0, wx.EXPAND | wx.ALL, 5)
+        vbox.Add(hbox10, 0, wx.EXPAND | wx.ALL, 5)
 
 
         findButton.Bind(wx.EVT_BUTTON, self.OnFindButton)
@@ -99,6 +106,9 @@ class SettingsWindow(wx.Frame):
 
         self.Init()
         panel.SetSizer(vbox)
+	sizer = wx.BoxSizer(wx.HORIZONTAL)
+    	sizer.Add(panel)
+    	self.SetSizerAndFit(sizer)
 
 
     def midiPorts(self, inout):
@@ -130,6 +140,7 @@ class SettingsWindow(wx.Frame):
         except:
             self.options = {"midiInPort":"",
                 "midiOutPort":"",
+                "nextSceneCC":0,
                 "nextSubsceneCC":0,
                 "idVendor":"",
                 "idProduct":"",
@@ -138,6 +149,7 @@ class SettingsWindow(wx.Frame):
 
         self.midiInPortComboBox.SetValue(self.options["midiInPort"])  
         self.midiOutPortComboBox.SetValue(self.options["midiOutPort"])
+        self.nextSceneCCSpinCtrl.SetValue(self.options["nextSceneCC"])
         self.nextSubsceneCCSpinCtrl.SetValue(self.options["nextSubsceneCC"])
         self.idVendorUSBTextCtrl.SetValue(self.options["idVendor"])
         self.idProductUSBTextCtrl.SetValue(self.options["idProduct"])
@@ -247,7 +259,8 @@ class SettingsWindow(wx.Frame):
 
     def OnApplyButton(self, event):
         self.options["midiInPort"] = self.midiInPortComboBox.GetValue() 
-        self.options["midiOutPort"] = self.midiOutPortComboBox.GetValue()        
+        self.options["midiOutPort"] = self.midiOutPortComboBox.GetValue()
+        self.options["nextSceneCC"] = self.nextSceneCCSpinCtrl.GetValue()        
         self.options["nextSubsceneCC"] = self.nextSubsceneCCSpinCtrl.GetValue()
         self.options["idVendor"] = self.idVendorUSBTextCtrl.GetValue()
         self.options["idProduct"] = self.idProductUSBTextCtrl.GetValue()
