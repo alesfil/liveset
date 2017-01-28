@@ -27,6 +27,12 @@ visible in the settings window)
 milestone 0.8 se si vuole usare il programma come midirouter - usare MIDICH REC, MIDICHTRASM, HighKey, LowKey (vedere prima su mididings come funzionano)
 
 ## CHANGELOG
+0.7.3
+- Cleaned code
+
+0.7.2
+- added MIDI CC for scene switch
+
 0.7.1
 - fixed a bug in scenes listbox in edit page
 

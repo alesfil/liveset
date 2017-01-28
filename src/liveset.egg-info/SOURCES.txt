@@ -1,7 +1,6 @@
 MANIFEST.in
 README
 install_udev-rules.sh
-setup.cfg
 setup.py
 ./src/scripts/liveset
 ./src/scripts/usbswitchd.py
@@ -14,6 +13,7 @@ src/liveset.egg-info/SOURCES.txt
 src/liveset.egg-info/dependency_links.txt
 src/liveset.egg-info/top_level.txt
 src/liveset/dings/__init__.py
+src/liveset/dings/livesetdings-prova.py
 src/liveset/dings/livesetdings.py
 src/liveset/gui/__init__.py
 src/liveset/gui/editpage.py

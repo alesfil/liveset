@@ -4,7 +4,7 @@ PYTHON=`which python`
 DESTDIR=/
 BUILDIR=$(CURDIR)/debian/liveset
 PROJECT=liveset
-VERSION=0.7.2
+VERSION=0.7.3
 PREFIX=/usr
 
 all:

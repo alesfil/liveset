@@ -22,10 +22,8 @@ def Run(filePath):
     subsceneswitchCC = settings["nextSubsceneCC"]  
 
     config(
-#	in_ports = [('in','UM-1:UM-1 MIDI 1')],
        in_ports = [('in',str(midiInPort))], 
        out_ports = [('out',str(midiOutPort))],
-#       out_ports = [('out','UA-25EX:.*')],
 	start_delay=0.5
     )
 

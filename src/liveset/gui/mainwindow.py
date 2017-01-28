@@ -123,8 +123,7 @@ class MainWindow(wx.Frame):
          self.p_livedings = subprocess.Popen(["livedings","-T"])
 
          time.sleep(3)
-#         self.p_usbswitchd = subprocess.Popen(os.path.join(modules_dir,"dings","usbswitchd.py"))
-## provvvisorio         self.p_usbswitchd = subprocess.Popen("usbswitchd.py")
+         self.p_usbswitchd = subprocess.Popen("usbswitchd.py")
 
          # maximize livedings window
          subprocess.Popen(["wmctrl","-r","livedings","-b","add,fullscreen"]) 

@@ -147,8 +147,6 @@ class PageSongEdit(wx.lib.scrolledpanel.ScrolledPanel):
         self.subscenesListbox.SetString(subsceneSel, newText)
 
         if oldText != newText:
-            #self.scenesData[sceneText][subsceneSel][newText] = self.scenesData[sceneText][subsceneSel][oldText]
-            #del self.scenesData[sceneText][subsceneSel][oldText]
             self.data.scenes[sceneText][subsceneSel][newText] = self.data.scenes[sceneText][subsceneSel][oldText]
             del self.data.scenes[sceneText][subsceneSel][oldText]
 
@@ -232,7 +230,6 @@ class PageSongEdit(wx.lib.scrolledpanel.ScrolledPanel):
         ## ChangeValue in order to not raise EVT_TEXT in TextCtrl ##
         self.sceneTextCtrl.ChangeValue(sceneText)
 
-        #for subsceneSel in self.scenesData[sceneText]:
         for subsceneSel in self.data.scenes[sceneText]:
             for subsceneText in subsceneSel:
                 self.subscenesListbox.Append(subsceneText)

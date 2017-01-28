@@ -24,9 +24,6 @@ class PageSetlist(wx.Panel):
         self.allSongsLabel = wx.StaticText(self, label="")
         self.allSongsLabel.SetFont(font)
 
-#        ## Set list listbox
-
-#        self.setListBox = wx.ListBox(self, -1)
         ## Setlist listctrl 
         self.setListCtrl = AutoWidthListCtrl(self) 
         self.setListCtrl.InsertColumn(0,'Pos.')
@@ -61,7 +58,6 @@ class PageSetlist(wx.Panel):
         vbox2 = wx.StaticBoxSizer(staticBox2, wx.VERTICAL)
         vbox2.Add(hbox2, 0, wx.EXPAND | wx.ALL, 5)
         vbox2.Add(self.setListLabel, 0, wx.ALL, 5)
-#        vbox2.Add(self.setListBox, 1, wx.EXPAND | wx.ALL, 5)
         vbox2.Add(self.setListCtrl, 1, wx.EXPAND | wx.ALL, 5)
 
         hbox = wx.BoxSizer(wx.HORIZONTAL)
@@ -73,7 +69,6 @@ class PageSetlist(wx.Panel):
         upButton.Bind(wx.EVT_BUTTON, self.OnUp)
         downButton.Bind(wx.EVT_BUTTON, self.OnDown)
         deleteButton.Bind(wx.EVT_BUTTON, self.OnDelete)
-#        self.setListBox.Bind(wx.EVT_LISTBOX, self.OnSelectSetList)
         self.setListCtrl.Bind(wx.EVT_LIST_ITEM_SELECTED, self.OnSelectSetList)
         self.allSongsListbox.Bind(wx.EVT_LISTBOX, self.OnSelectAllSongsList)
 
@@ -91,41 +86,26 @@ class PageSetlist(wx.Panel):
         except:
             self.setlist = []
 
-#        self.setListBox.Set([])  
-#        for song in self.setlist:
-#            if song in self.data.scenesName:
-#                self.setListBox.Append(song)
-##
         self.setListCtrl.DeleteAllItems()
         for index, song in enumerate(self.setlist):
             if song in self.data.scenesName:
                 self.setListCtrl.Append([str(index+1), song])
-##
+
 
     def OnSelectAllSongsList(self, event):
          sel = self.allSongsListbox.GetSelection()
          self.allSongsLabel.SetLabel(self.allSongsListbox.GetString(sel))  
 
+
     def OnSelectSetList(self, event):
-#        sel = self.setListBox.GetSelection()
         sel = self.setListCtrl.GetFirstSelected()
         item = self.setListCtrl.GetItem(sel, 1)
         text = item.GetText()
-#        self.setListLabel.SetLabel(self.setListBox.GetString(sel))
         self.setListLabel.SetLabel(text)
 
     def OnInsert(self, event):
         sel1 = self.allSongsListbox.GetSelection()
 
-#        if sel1 != -1: 
-#            text = self.allSongsListbox.GetString(sel1)
-#            sel2 = self.setListBox.GetSelection()
-#            if sel2 != -1: 
-#                self.setListBox.Insert(text, sel2)
-#            else:
-#                self.setListBox.Append(text)
-
-##
         if sel1 != -1: 
             scene = self.allSongsListbox.GetString(sel1)
             sel2 = self.setListCtrl.GetFirstSelected()
@@ -144,14 +124,6 @@ class PageSetlist(wx.Panel):
 
 
     def OnUp(self, event):
-#        sel = self.setListBox.GetSelection()
-#        if sel > 0:
-#            text = self.setListBox.GetString(sel)
-#            self.setListBox.Insert(text, sel-1)
-#            self.setListBox.Delete(sel+1)
-#            self.setListBox.Select(sel-1)
-
-##
         sel = self.setListCtrl.GetFirstSelected()
         setlistLen = self.setListCtrl.GetItemCount()
         if sel > 0:
@@ -164,20 +136,11 @@ class PageSetlist(wx.Panel):
             for index in range(setlistLen):
                 self.setListCtrl.SetStringItem(index, 0, str(index+1))
             self.setListCtrl.Select(sel-1)  
-##
+
         self.RefreshData()
 
 
     def OnDown(self, event):
-#        sel = self.setListBox.GetSelection()
-#        lbMaxIdx = self.setListBox.GetCount()-1
-#        if sel != -1 and sel < lbMaxIdx:
-#            text = self.setListBox.GetString(sel)
-#            self.setListBox.Insert(text, sel+2)
-#            self.setListBox.Delete(sel)
-#            self.setListBox.Select(sel+1)
-
-##
         sel = self.setListCtrl.GetFirstSelected()
         setlistLen = self.setListCtrl.GetItemCount()
         if sel != -1 and sel <  setlistLen-1:
@@ -190,19 +153,11 @@ class PageSetlist(wx.Panel):
             for index in range(setlistLen):
                 self.setListCtrl.SetStringItem(index, 0, str(index+1))
             self.setListCtrl.Select(sel+1) 
-##
+
         self.RefreshData()
 
-    def OnDelete(self, event):
-#        sel = self.setListBox.GetSelection()
-#        if sel != -1:
-#            self.setListBox.Delete(sel)
-#            try:
-#                self.setListBox.Select(sel)
-#            except:
-#                self.setListBox.Select(sel-1)
 
-##
+    def OnDelete(self, event):
         sel = self.setListCtrl.GetFirstSelected()
         if sel!= -1:
             self.setListCtrl.DeleteItem(sel)
@@ -215,16 +170,11 @@ class PageSetlist(wx.Panel):
                 self.setListCtrl.Select(sel)
             elif (sel == setlistLen) and setlistLen > 0:
                 self.setListCtrl.Select(sel-1)
-##
+
         self.RefreshData()
 
+
     def RefreshData(self):
-#        self.setlist = self.setListBox.GetStrings()
-                
-#        self.data.setlist = {}
-#        for pos,song in enumerate(self.setlist):
-#            self.data.setlist[str(pos+1)] = song  
-## 
         self.data.setlist = {}
         setlistLen = self.setListCtrl.GetItemCount() 
         for index in range(setlistLen):

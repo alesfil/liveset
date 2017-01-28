@@ -26,6 +26,3 @@ settings_file = os.path.join(config_dir, "settings.json")
 switchmode_file = os.path.join(cache_dir,"switchMode")
 usbswitchlock_file = os.path.join(cache_dir,"usbswitchLock")
 scenes_file = os.path.join(data_dir, "scenes.json")
-
-# serve per lanciare i moduli python (usb) che non funzionano con threading
-##modules_dir = os.path.dirname(os.path.realpath(__file__))
