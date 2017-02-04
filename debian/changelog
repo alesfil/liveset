@@ -1,4 +1,10 @@
-liveset (0.7.3-1) UNRELEASED; urgency=medium
+liveset (0.7.3-2) UNRELEASED; urgency=medium
+
+  * Added python-wxgtk3.0 dependency
+
+ -- Alessandro Filippo <alessandro.filippo@infinito.it>  Sat, 04 Feb 2017 16:25:30 +0100
+
+liveset (0.7.3-1) unstable; urgency=medium
 
   * Cleaned code
 

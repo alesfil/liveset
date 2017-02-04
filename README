@@ -4,6 +4,7 @@ pyliblo
 pyusb
 alsa-utils
 wmctrl
+wxpython
 
 ## INSTALL
 python setup.py install
