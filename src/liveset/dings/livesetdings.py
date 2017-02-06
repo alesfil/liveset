@@ -73,23 +73,3 @@ def Run(filePath):
         control = control,
         pre = pre
     )
-
-
-def switchModed():
-    time.sleep(1)
-    last_switchMode = None
-    while engine.active():
-        scenes = engine.scenes()
-        currentScene = engine.current_scene()
-        currentSubscene = engine.current_subscene()
-        subsceneLen = len(scenes[currentScene][1])
-        if currentSubscene <= subsceneLen - 1:
-            switchMode = "switchsubscene"
-        else:
-            switchMode = "switchscene"
-  
-        if switchMode != last_switchMode: 
-            with open(switchmode_file, 'w') as switchModeFile:
-                switchModeFile.write(switchMode)
-            last_switchMode = switchMode
-        time.sleep(0.5) 

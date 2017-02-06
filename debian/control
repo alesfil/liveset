@@ -12,7 +12,6 @@ Architecture: all
 Depends: ${shlibs:Depends}, ${misc:Depends}, ${python:Depends},
  mididings,
  python-liblo,
- python-usb (>=1.0.0~b2),
  alsa-utils,
  wmctrl,
  python-wxgtk3.0

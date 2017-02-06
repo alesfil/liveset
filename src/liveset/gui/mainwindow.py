@@ -105,28 +105,20 @@ class MainWindow(wx.Frame):
              self.p_livedings.terminate()
          except:
              pass
-         try:
-             self.p_usbswitchd.terminate()
-         except:
-             pass
 
          if not mididings.engine.active():
              mididings_thread = threading.Thread(target = livesetdings.Run, args=([self.filePath])) 
              mididings_thread.daemon = True
              mididings_thread.start()
 
-         scene_thread = threading.Thread(target = livesetdings.switchModed, args=()) 
-         scene_thread.daemon = True
-         scene_thread.start()
-
          # subprocess.Popen can call process in background
          self.p_livedings = subprocess.Popen(["livedings","-T"])
 
          time.sleep(3)
-         self.p_usbswitchd = subprocess.Popen("usbswitchd.py")
 
          # maximize livedings window
-         subprocess.Popen(["wmctrl","-r","livedings","-b","add,fullscreen"]) 
+#         subprocess.Popen(["wmctrl","-r","livedings","-b","add,fullscreen"])
+         subprocess.Popen(["wmctrl","-r","livedings","-b","add,maximized_vert,maximized_horz"])  
 
     def OnOpen(self, event):
         wildcard = "Project files (*.json)|*.json"
@@ -143,6 +135,7 @@ class MainWindow(wx.Frame):
         self.data.project["Scenes"] = self.pageEdit.data.scenes
         self.data.project["Setlist"] = self.pageSetlist.data.setlist 
         self.data.Save(self.filePath)
+        #self.data.Save(scenes_file)
 
 
     def OnSaveAs(self, event):
@@ -152,6 +145,7 @@ class MainWindow(wx.Frame):
             self.filePath = dialog.GetPath()
         dialog.Destroy()
         self.data.Save(self.filePath)
+        #self.data.Save(scenes_file)
 
     def OnAbout(self, event):
         string = '''LiveSet - Setlist Programmer
@@ -174,17 +168,9 @@ Copyright (C) 2016 Alessandro Filippo'''
             mididings.engine.quit()
             time.sleep(0.5)
         try:
-            self.p_usbswitchd.terminate()
-        except:
-            pass
-        try:
             self.p_livedings.terminate()
         except:
-            pass
-        try:
-            os.remove(switchmode_file)
-        except:
-            pass    
+            pass   
 
         time.sleep(0.5)       
         sys.exit(0)
