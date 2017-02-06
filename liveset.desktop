@@ -1,0 +1,9 @@
+[Desktop Entry]
+Keywords=Mididings editor
+Name=Liveset
+Comment=Mididings editor
+Exec=liveset
+Icon=icon
+Terminal=false
+Type=Application
+Categories=AudioVideo;Audio;
