@@ -1,2 +1,1 @@
-include src/etc/*.rules
-include install_udev-rules.sh
+include liveset.desktop

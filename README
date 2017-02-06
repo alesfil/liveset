@@ -1,7 +1,6 @@
 ## DEPENDENCIES
 mididings
 pyliblo
-pyusb
 alsa-utils
 wmctrl
 wxpython
@@ -12,22 +11,13 @@ python setup.py install
 ## or (without python eggs)
 python setup.py install --single-version-externally-managed --root=/
 
-## install the udev rule (see also KNOWN BUGS)
-install_udev-rules.sh
-adduser <user> plugdev
 
-## reboot (in order to load the udev rule)
-
-KNOWN BUGS
-Insert idVendor and idProduct by hand in /etc/udev/rules.d/50-usbswitchd.rules
-(idVendor and idProduct are stored in $HOME/.config/liveset/settings.json and 
-visible in the settings window)
-
-
-* il file udev deve essere fatto in sede di configurazione (user) perchè prende i dati da device usb
-milestone 0.8 se si vuole usare il programma come midirouter - usare MIDICH REC, MIDICHTRASM, HighKey, LowKey (vedere prima su mididings come funzionano)
+## milestone 0.8 se si vuole usare il programma come midirouter - usare MIDICH REC, MIDICHTRASM, HighKey, LowKey (vedere prima su mididings come funzionano)
 
 ## CHANGELOG
+0.7.4
+- Removed usb related code (livedings is controllable by arrows, usb-switch can be set to send arrow keys) 
+
 0.7.3
 - Cleaned code
 
