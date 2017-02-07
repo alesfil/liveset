@@ -15,6 +15,9 @@ python setup.py install --single-version-externally-managed --root=/
 ## milestone 0.8 se si vuole usare il programma come midirouter - usare MIDICH REC, MIDICHTRASM, HighKey, LowKey (vedere prima su mididings come funzionano)
 
 ## CHANGELOG
+0.7.5
+- Added Midi Channel for control (switch scene and subscene)
+
 0.7.4
 - Removed usb related code (livedings is controllable by arrows, usb-switch can be set to send arrow keys) 
 
