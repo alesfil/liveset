@@ -23,6 +23,11 @@ class SettingsWindow(wx.Frame):
         self.midiOutPortComboBox = wx.ComboBox(panel)
         self.midiOutPortComboBox.SetItems(self.midiPorts('out'))
 
+        ControlMidiChText = wx.StaticText(panel, label="MIDI Channel for scene/subscene switch")
+
+        self.ControlMidiChSpinCtrl = wx.SpinCtrl(panel, value ='1')
+        self.ControlMidiChSpinCtrl.SetRange(1, 16)
+
         nextSceneCCText = wx.StaticText(panel, label="Switch Scene MIDI CC")
         nextSubsceneCCText = wx.StaticText(panel, label="Switch Subscene MIDI CC")
 
@@ -38,20 +43,23 @@ class SettingsWindow(wx.Frame):
         hbox2 = wx.BoxSizer(wx.HORIZONTAL)
         hbox3 = wx.BoxSizer(wx.HORIZONTAL)
         hbox4 = wx.BoxSizer(wx.HORIZONTAL)
+        hbox5 = wx.BoxSizer(wx.HORIZONTAL)
 
         hbox1.Add(midiInPortText, 1,  wx.EXPAND |wx.ALL, 5)
         hbox1.Add(self.midiInPortComboBox, 1,  wx.EXPAND |wx.ALL, 5)
         hbox2.Add(midiOutPortText, 1,  wx.EXPAND |wx.ALL, 5)
         hbox2.Add(self.midiOutPortComboBox, 1,  wx.EXPAND |wx.ALL, 5)
-        hbox3.Add(nextSceneCCText, 1,  wx.EXPAND |wx.ALL, 5)
-        hbox3.Add(self.nextSceneCCSpinCtrl, 1, wx.EXPAND |wx.ALL, 5)
-        hbox4.Add(nextSubsceneCCText, 1,  wx.EXPAND |wx.ALL, 5)
-        hbox4.Add(self.nextSubsceneCCSpinCtrl, 1, wx.EXPAND |wx.ALL, 5)       
+        hbox3.Add(ControlMidiChText, 1,  wx.EXPAND |wx.ALL, 5)
+        hbox3.Add(self.ControlMidiChSpinCtrl, 1, wx.EXPAND |wx.ALL, 5)
+        hbox4.Add(nextSceneCCText, 1,  wx.EXPAND |wx.ALL, 5)
+        hbox4.Add(self.nextSceneCCSpinCtrl, 1, wx.EXPAND |wx.ALL, 5)
+        hbox5.Add(nextSubsceneCCText, 1,  wx.EXPAND |wx.ALL, 5)
+        hbox5.Add(self.nextSubsceneCCSpinCtrl, 1, wx.EXPAND |wx.ALL, 5)        
 
 
-        hbox5 = wx.BoxSizer(wx.HORIZONTAL)
-        hbox5.Add(applyButton, 1, wx.EXPAND | wx.ALL , 10)
-        hbox5.Add(closeButton, 1, wx.EXPAND | wx.ALL , 10)   
+        hbox6 = wx.BoxSizer(wx.HORIZONTAL)
+        hbox6.Add(applyButton, 1, wx.EXPAND | wx.ALL , 10)
+        hbox6.Add(closeButton, 1, wx.EXPAND | wx.ALL , 10)   
 
         vbox = wx.BoxSizer(wx.VERTICAL)
         vbox.Add(hbox1, 0, wx.EXPAND |wx.ALL, 5) 
@@ -59,6 +67,7 @@ class SettingsWindow(wx.Frame):
         vbox.Add(hbox3, 0, wx.EXPAND |wx.ALL, 5)
         vbox.Add(hbox4, 0, wx.EXPAND |wx.ALL, 5)    
         vbox.Add(hbox5, 0, wx.EXPAND | wx.ALL, 5)
+        vbox.Add(hbox6, 0, wx.EXPAND | wx.ALL, 5)
 
         applyButton.Bind(wx.EVT_BUTTON, self.OnApplyButton)
         closeButton.Bind(wx.EVT_BUTTON, self.OnCloseButton)
@@ -99,13 +108,15 @@ class SettingsWindow(wx.Frame):
         except:
             self.options = {"midiInPort":"",
                 "midiOutPort":"",
+                "controlMidiCh":1,
                 "nextSceneCC":0,
                 "nextSubsceneCC":0}
 
         self.midiInPortComboBox.SetValue(self.options["midiInPort"])  
         self.midiOutPortComboBox.SetValue(self.options["midiOutPort"])
         self.nextSceneCCSpinCtrl.SetValue(self.options["nextSceneCC"])
-        self.nextSubsceneCCSpinCtrl.SetValue(self.options["nextSubsceneCC"])                         
+        self.nextSubsceneCCSpinCtrl.SetValue(self.options["nextSubsceneCC"])  
+        self.ControlMidiChSpinCtrl.SetValue(self.options["controlMidiCh"])                       
 
         
 
@@ -114,6 +125,7 @@ class SettingsWindow(wx.Frame):
         self.options["midiOutPort"] = self.midiOutPortComboBox.GetValue()
         self.options["nextSceneCC"] = self.nextSceneCCSpinCtrl.GetValue()        
         self.options["nextSubsceneCC"] = self.nextSubsceneCCSpinCtrl.GetValue()
+        self.options["controlMidiCh"] = self.ControlMidiChSpinCtrl.GetValue()
   
         with open(settings_file, 'w') as outFile:
             json.dump(self.options, outFile, sort_keys = True, indent = 4, ensure_ascii = False)

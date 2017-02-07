@@ -16,8 +16,10 @@ def Run(filePath):
 
     with open(settings_file) as data_file:
         settings = json.load(data_file)
+
     midiOutPort = settings["midiOutPort"]
     midiInPort = settings["midiInPort"]
+    controlMidiCh = settings["controlMidiCh"]
     sceneswitchCC = settings["nextSceneCC"]
     subsceneswitchCC = settings["nextSubsceneCC"]  
 
@@ -58,8 +60,8 @@ def Run(filePath):
 
 
     # Controller for subscene switch
-    control = [CtrlFilter(sceneswitchCC) >> CtrlValueFilter(127) >> SceneSwitch(offset=1),
-		CtrlFilter(subsceneswitchCC) >> CtrlValueFilter(127) >> SubSceneSwitch(offset=1)]
+    control = [ChannelFilter(controlMidiCh) >> CtrlFilter(sceneswitchCC) >> CtrlValueFilter(127) >> SceneSwitch(offset=1),
+		ChannelFilter(controlMidiCh) >> CtrlFilter(subsceneswitchCC) >> CtrlValueFilter(127) >> SubSceneSwitch(offset=1)]
     pre = ~CtrlFilter(sceneswitchCC) >> ~CtrlFilter(subsceneswitchCC)
 
     # scenes ordered according setlist
