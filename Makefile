@@ -21,6 +21,8 @@ install:
 	--prefix=$(PREFIX) \
 	--install-lib=$(PREFIX)/lib/python2.7/dist-packages \
         --no-compile
+        # install the desktop file
+	desktop-file-install --dir=$(DESTDIR)$(PREFIX)/share/applications liveset.desktop
 
 builddeb:
 	# build the source package in the parent directory
@@ -34,4 +36,5 @@ builddeb:
 clean:
 	$(PYTHON) setup.py clean
 	rm -rf build/ MANIFEST
+	rm -r src/liveset.egg-info
 	find . -name '*.pyc' -delete
