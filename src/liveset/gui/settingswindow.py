@@ -4,7 +4,6 @@ import wx
 import json
 import os
 import time
-import usb.core, usb.util
 from liveset.livesetconf import *
 
 import subprocess
