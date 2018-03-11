@@ -1,13 +1,13 @@
 Format: http://www.debian.org/doc/packaging-manuals/copyright-format/1.0/
 Upstream-Name: liveset
-Source: <url://example.com>
+Source: <https://github.com/alesfil/liveset>
 
 Files: *
-Copyright: 2016-2017, Alessandro Filippo alessandro.filippo@infinito.it
+Copyright: 2016-2018, Alessandro Filippo alessandro.filippo@infinito.it
 License: GPL-2+
 
 Files: debian/*
-Copyright: 2016-2017 Alessandro Filippo <ale@debaudio.habanadomain.org>
+Copyright: 2016-2018 Alessandro Filippo <alessandro.filippo@infinito.it>
 License: GPL-2+
  This package is free software; you can redistribute it and/or modify
  it under the terms of the GNU General Public License as published by

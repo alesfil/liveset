@@ -62,7 +62,7 @@ def Run(filePath):
     # Controller for subscene switch
     control = [ChannelFilter(controlMidiCh) >> CtrlFilter(sceneswitchCC) >> CtrlValueFilter(127) >> SceneSwitch(offset=1),
 		ChannelFilter(controlMidiCh) >> CtrlFilter(subsceneswitchCC) >> CtrlValueFilter(127) >> SubSceneSwitch(offset=1)]
-    pre = ~CtrlFilter(sceneswitchCC) >> ~CtrlFilter(subsceneswitchCC)
+    pre = [~CtrlFilter(sceneswitchCC) >> ~CtrlFilter(subsceneswitchCC), Filter(NOTE|PITCHBEND|AFTERTOUCH)]
 
     # scenes ordered according setlist
     scenes = {}
