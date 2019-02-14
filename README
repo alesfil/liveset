@@ -1,0 +1,82 @@
+## DEPENDENCIES
+mididings
+pyliblo
+alsa-utils
+wmctrl
+wxpython
+
+## INSTALL
+python setup.py install
+
+## or (without python eggs)
+python setup.py install --single-version-externally-managed --root=/
+
+
+## CHANGELOG
+
+0.8.0
+- completely changed layout for better visualization in devices like raspberry with small touch-screens.
+(main window for scenes and setlist unified, edit window for subscene editing). 
+- fixed bug in startsession (using subprocess.Popen for calling livesetdings). Now editing to the scene after 
+livedings/mididings call is possible without quitting the program.
+
+0.7.6
+- fixed bug in settings window (import usb)
+- changed pre filter in livesetdings, permitting MIDI THRU of Notes, Pitchbend, CC, Aftertouch.
+
+0.7.5
+- Added Midi Channel for control (switch scene and subscene)
+
+0.7.4
+- Removed usb related code (livedings is controllable by arrows, usb-switch can be set to send arrow keys) 
+
+0.7.3
+- Cleaned code
+
+0.7.2
+- added MIDI CC for scene switch
+
+0.7.1
+- fixed a bug in scenes listbox in edit page
+
+0.7
+- setlist and scenes data in one .json file
+- class Data for common file operations
+- better updating of switchmode_file
+- clean up of the code
+- open, save, save as .json files
+- toolbar
+- listctrl for setlist
+- Midi in/out port settings
+- fixed bug: usbswitchd not terminated on restarting session
+
+0.6
+- code divided in modules and prepared to packaging
+- external programs called with subprocess.Popen()
+- fixed bug: subprograms not terminated
+- startsession in setlist
+- setlist in json format
+- usb switch can now switch scene or subscene (lockfiles in .cache/liveset)
+- usbswitchd in python2
+- settings: USB configuration e switch learn
+
+0.5
+- MIDI CH added 
+- scene editor
+- part (zones) editor
+- option window (settings)
+
+0.4
+- gui in wxpython
+- CC32 added
+- start session from gui
+
+0.3
+- data of the scenes in a different file
+- usbswitch: sleep() for cpu load
+
+
+
+
+
+
