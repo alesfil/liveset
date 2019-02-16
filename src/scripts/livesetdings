@@ -4,6 +4,7 @@
 from mididings import *
 from mididings.extra.osc import OSCInterface
 import mididings.engine as engine
+import mididings.util
 from liveset.livesetconf import *
 from liveset.utils.files import *
 
@@ -52,10 +53,18 @@ def Run(filePath):
 	    	        Program(out_port, part["CH"], part["PC"])
 		        ])
                 if key != "--":
-                    subscenes.append(Scene(str(key), Pass(), patch))
+                    lower = mididings.util.note_name(part["Lower"])
+                    upper = mididings.util.note_name(part["Upper"]+1)  # +1 is a workaround for Python ranges (not including upper limit)
+                    subscenes.append(Scene(str(key), \
+                                     ChannelFilter(part["InCH"]) >> Channel(part["CH"]) >> KeyFilter(lower, upper), \
+                                     patch))
         ## if subscenes is empty, add a Scene
         if not subscenes:
-            scenes_dict[str(scene)] = Scene(str(scene), Pass(), patch)
+            lower = mididings.util.note_name(part["Lower"])
+            upper = mididings.util.note_name(part["Upper"]+1)
+            scenes_dict[str(scene)] = Scene(str(scene), \
+                                            ChannelFilter(part["InCH"]) >> Channel(part["CH"]) >> KeyFilter(lower, upper), \
+                                            patch)
         else:
             scenes_dict[str(scene)] = SceneGroup(str(scene), subscenes)
 

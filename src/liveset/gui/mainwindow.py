@@ -84,6 +84,7 @@ class MainWindow(wx.Frame):
 
         self.Show()
         self.Maximize(True)
+        self.filename = filename
 
         self.Reload()
 
@@ -129,16 +130,18 @@ class MainWindow(wx.Frame):
         except:
             pass
 
-#        self.p_livesetdings = subprocess.Popen(["/home/ale/liveset/liveset-0.8x/src/liveset/dings/run.py", self.filePath])
-        self.p_livesetdings = subprocess.Popen(["livesetdings", self.filePath])
-         # subprocess.Popen can call process in background
-        self.p_livedings = subprocess.Popen(["livedings","-T", "-F", "Sans 24 bold", "-n", self.filename])
+        if len(self.data.setlist) > 1: # mididings doesn't work with 1 scene
+            # subprocess.Popen can call process in background
+            self.p_livesetdings = subprocess.Popen(["livesetdings", self.filePath])
+            self.p_livedings = subprocess.Popen(["livedings","-T", "-F", "Sans 24 bold", "-n", self.filename])
 
-        time.sleep(3)
+            time.sleep(3)
 
-         # maximize livedings window
-#         subprocess.Popen(["wmctrl","-r","livedings","-b","add,fullscreen"])
-        subprocess.Popen(["wmctrl","-r","livedings","-b","add,maximized_vert,maximized_horz"])  
+            # maximize livedings window ## METTERE UN'OPZIONE SU SETTINGS
+#            subprocess.Popen(["wmctrl","-r","livedings","-b","add,fullscreen"])
+            subprocess.Popen(["wmctrl","-r","livedings","-b","add,maximized_vert,maximized_horz"])
+        else:
+            print("There is only one scene. Please add more scenes")  
 
     def OnOpen(self, event):
         wildcard = "Project files (*.json)|*.json"
@@ -186,12 +189,12 @@ Copyright (C) 2016-2019 Alessandro Filippo'''
         self.Close(True)
 
     def OnClose(self, event):
-        if mididings.engine.active():   ### questo non servirà più
-            mididings.engine.quit()
-            time.sleep(0.5)
+        #if mididings.engine.active():   ### questo non servirà più
+        #    mididings.engine.quit()
+        #    time.sleep(0.5)
         try:
             self.p_livedings.terminate()
-            self.p_livesetdings.terminate()  #### SE SERVE (MODIFICATO)
+            self.p_livesetdings.terminate()
         except:
             pass   
 

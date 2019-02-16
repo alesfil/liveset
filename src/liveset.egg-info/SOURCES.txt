@@ -13,7 +13,6 @@ src/liveset.egg-info/dependency_links.txt
 src/liveset.egg-info/top_level.txt
 src/liveset/dings/__init__.py
 src/liveset/dings/livesetdings.py
-src/liveset/dings/run.py
 src/liveset/gui/__init__.py
 src/liveset/gui/editwindow.py
 src/liveset/gui/mainwindow.py

@@ -3,7 +3,7 @@
 import wx
 import wx.lib.mixins.listctrl as listmix
 
-from .editwindow import EditWindow
+from .editwindow import EditWindow, Subscene
 
 sign = lambda x : 1 if x>0 else -1 if x <0 else 0
 
@@ -251,24 +251,12 @@ class PageSetlist(wx.Panel):
                 del self.data.scenes[oldText] # lo posso cancellare solo se non ci sono altre occorrenze sulla setlist!!
 
 
-    def InitPart(self):
-        part = {}
-        part["CH"] = 1
-        part["PC"] = 1
-        part["CC0"] = 0
-        part["CC32"] = 0
-        return part
-
-    def InitSubscene(self):
-        part = self.InitPart()
-        subscene = [part]
-        return subscene
-
     def InitScene(self):
         sceneText = "New Scene" 
 
         subsceneText = "--"
         self.data.scenes[sceneText] = [{}]
         part = 0
-        self.data.scenes[sceneText][part][subsceneText] = self.InitSubscene()
+        subscene = Subscene()
+        self.data.scenes[sceneText][part][subsceneText] = subscene.InitSubscene()
         return sceneText

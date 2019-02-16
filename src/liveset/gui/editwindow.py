@@ -2,6 +2,23 @@
 
 import wx
 
+class Subscene():
+    def InitPart(self):
+        part = {}
+        part["InCH"] = 1
+        part["CH"] = 1
+        part["PC"] = 1
+        part["CC0"] = 0
+        part["CC32"] = 0
+        part["Lower"] = 0
+        part["Upper"] = 127
+        return part
+
+    def InitSubscene(self):
+        part = self.InitPart()
+        subscene = [part]
+        return subscene
+
 class EditWindow(wx.Frame):
     def __init__(self, parent, data, sceneText):
         wx.Frame.__init__(self, None, title=sceneText)
@@ -71,24 +88,12 @@ class EditWindow(wx.Frame):
         LowerKeyText = wx.StaticText(self, label="Lower Key")
         UpperKeyText = wx.StaticText(self, label="Upper Key")
 
-#        Labels = [PartText, MidiChText, PCText, Bank00Text, Bank32Text]
-
-#        grid = wx.GridSizer(17, 5, 2, 2)
-  
-#        grid.AddMany(Labels)
-#        for i in range(0, self.zones):
-#            grid.AddMany([self.partsCheckBox[i], self.MidiChSpinCtrls[i], self.PCSpinCtrls[i], self.Bank00SpinCtrls[i], self.Bank32SpinCtrls[i]])
-
         grid = wx.GridSizer(8, self.zones+1, 2, 2)
         grid.Add(PartText)
         grid.AddMany(self.partsCheckBox)
-#        for i in range(0, self.zones):
-#            grid.Add(self.partsCheckBox[i], 0, wx.ALIGN_RIGHT)
         grid.Add(MidiInChText)
         grid.AddMany(self.MidiInChSpinCtrls)
         grid.Add(MidiChText)
-#        for i in range(0, self.zones):
-#            grid.Add(self.MidiChSpinCtrls[i], 0, wx.ALIGN_RIGHT)
         grid.AddMany(self.MidiChSpinCtrls)
         grid.Add(PCText)
         grid.AddMany(self.PCSpinCtrls)
@@ -130,10 +135,12 @@ class EditWindow(wx.Frame):
 
         for part in range(0, self.zones):
             self.partsCheckBox[part].Bind(wx.EVT_CHECKBOX, lambda evt, temp=part: self.OnSelectPart(evt, temp))
+            self.MidiInChSpinCtrls[part].Bind(wx.EVT_SPINCTRL, lambda evt, temp=part: self.OnMidiInSpinCtrl(evt, temp))
             self.MidiChSpinCtrls[part].Bind(wx.EVT_SPINCTRL, lambda evt, temp=part: self.OnMidiSpinCtrl(evt, temp))
             self.PCSpinCtrls[part].Bind(wx.EVT_SPINCTRL, lambda evt, temp=part: self.OnPCSpinCtrl(evt, temp))
             self.Bank00SpinCtrls[part].Bind(wx.EVT_SPINCTRL, lambda evt, temp=part: self.OnBank00SpinCtrl(evt, temp))
-            self.Bank32SpinCtrls[part].Bind(wx.EVT_SPINCTRL, lambda evt, temp=part: self.OnBank32SpinCtrl(evt, temp))
+            self.LowerKeySpinCtrls[part].Bind(wx.EVT_SPINCTRL, lambda evt, temp=part: self.OnLowerKeySpinCtrl(evt, temp))
+            self.UpperKeySpinCtrls[part].Bind(wx.EVT_SPINCTRL, lambda evt, temp=part: self.OnUpperKeySpinCtrl(evt, temp))
    
         self.SetSizer(hbox)
         self.OnLoad()
@@ -162,26 +169,10 @@ class EditWindow(wx.Frame):
             del self.data.scenes[self.sceneText][subsceneSel][oldText]
 
 
-    def InitPart(self):
-        part = {}
-        part["CH"] = 1
-        part["PC"] = 1
-        part["CC0"] = 0
-        part["CC32"] = 0
-        return part
-
-
-    def InitSubscene(self):
-        part = self.InitPart()
-        subscene = [part]
-        return subscene
-
-
     def OnNewSubsceneButton(self, event):
-        ##sceneSel = self.scenesListbox.GetSelection()
-        ##sceneText = self.scenesListbox.GetString(sceneSel)
         subsceneText = "--"
-        self.data.scenes[self.sceneText].append({subsceneText : self.InitSubscene()})  
+        subscene = Subscene()
+        self.data.scenes[self.sceneText].append({subsceneText : subscene.InitSubscene()})  
         self.subscenesListbox.Append(subsceneText)
         subsceneCount = self.subscenesListbox.GetCount()
         self.subscenesListbox.Select(subsceneCount-1)
@@ -212,10 +203,14 @@ class EditWindow(wx.Frame):
         for part in range(0, len(subscene)):        
                 self.partsCheckBox[part].SetValue(True)
                 self.EnablePart(part) 
+                self.MidiInChSpinCtrls[part].SetValue(subscene[part]['InCH'])
                 self.MidiChSpinCtrls[part].SetValue(subscene[part]['CH'])
                 self.PCSpinCtrls[part].SetValue(subscene[part]['PC'])
                 self.Bank00SpinCtrls[part].SetValue(subscene[part]['CC0'])
                 self.Bank32SpinCtrls[part].SetValue(subscene[part]['CC32'])
+                self.LowerKeySpinCtrls[part].SetValue(subscene[part]['Lower'])
+                self.UpperKeySpinCtrls[part].SetValue(subscene[part]['Upper'])
+
 
         for part in range(len(subscene), self.zones):
                 self.partsCheckBox[part].SetValue(False)
@@ -224,6 +219,10 @@ class EditWindow(wx.Frame):
         ## REMINDER: the following point to self.data.scenes...
         self.selectedSubscene = subscene
 
+    def OnMidiInSpinCtrl(self, event, part):
+        sender = event.GetEventObject()
+        ## This is a pointer to self.data.scenes...
+        self.selectedSubscene[part]['InCH'] = sender.GetValue()
 
     def OnMidiSpinCtrl(self, event, part):
         sender = event.GetEventObject()
@@ -242,6 +241,15 @@ class EditWindow(wx.Frame):
         sender = event.GetEventObject()
         self.selectedSubscene[part]['CC32'] = sender.GetValue()
 
+    def OnLowerKeySpinCtrl(self, event, part):
+        sender = event.GetEventObject()
+        self.selectedSubscene[part]['Lower'] = sender.GetValue()
+
+    def OnUpperKeySpinCtrl(self, event, part):
+        sender = event.GetEventObject()
+        self.selectedSubscene[part]['Upper'] = sender.GetValue()
+
+
     def OnSelectPart(self, event, part):
         sender = event.GetEventObject()
         isChecked = sender.GetValue()
@@ -255,17 +263,23 @@ class EditWindow(wx.Frame):
             del self.selectedSubscene[part]
 
     def EnablePart(self, part):
+        self.MidiInChSpinCtrls[part].Enable()
         self.MidiChSpinCtrls[part].Enable()
         self.PCSpinCtrls[part].Enable()
         self.Bank00SpinCtrls[part].Enable()
         self.Bank32SpinCtrls[part].Enable()
+        self.LowerKeySpinCtrls[part].Enable()
+        self.UpperKeySpinCtrls[part].Enable()
 
 
     def DisablePart(self, part):
+        self.MidiInChSpinCtrls[part].Disable()
         self.MidiChSpinCtrls[part].Disable()
         self.PCSpinCtrls[part].Disable()
         self.Bank00SpinCtrls[part].Disable()
-        self.Bank32SpinCtrls[part].Disable()  
+        self.Bank32SpinCtrls[part].Disable() 
+        self.LowerKeySpinCtrls[part].Disable() 
+        self.UpperKeySpinCtrls[part].Disable() 
 
     def OnCloseButton(self, event):
         self.Close(True)        
