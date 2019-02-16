@@ -21,14 +21,6 @@ class PageSetlist(wx.Panel):
         
         self.data = data
 
-        ## All songs listbox
-##        self.allSongsListbox = wx.ListBox(self, -1)
-
-        self.data = data
-        
-##        self.allSongsLabel = wx.StaticText(self, label="")
-##        self.allSongsLabel.SetFont(font)
-
         ## Setlist listctrl 
         self.setListCtrl = AutoWidthListCtrl(self) 
         self.setListCtrl.InsertColumn(0,'Pos.')
@@ -37,12 +29,9 @@ class PageSetlist(wx.Panel):
 
         self.sceneTextCtrl = wx.TextCtrl(self) 
         self.sceneTextCtrl.SetFont(font)
-##        self.setListLabel = wx.StaticText(self, label="")
-##        self.setListLabel.SetFont(font)
 
         ## Buttons
 
-##        insertButton = wx.Button(self, label='Insert -->')
         upButton = wx.Button(self, label='Scene Up')
         downButton = wx.Button(self, label='Scene Down')
         newButton = wx.Button(self, label='New Scene')
@@ -52,37 +41,32 @@ class PageSetlist(wx.Panel):
 
 
         ## Boxes
-##        hbox1 = wx.BoxSizer(wx.HORIZONTAL)       
-##        hbox1.Add(insertButton, 0, wx.ALL, 5)
+      
+        vbox1 = wx.BoxSizer(wx.VERTICAL)
+        vbox1.Add(self.sceneTextCtrl, 0, wx.EXPAND | wx.ALL, 5)
+        vbox1.Add(self.setListCtrl, 1, wx.EXPAND | wx.ALL, 5)
 
-##        staticBox1 = wx.StaticBox(self, label='Scenes')
-##        vbox1 = wx.StaticBoxSizer(staticBox1, wx.VERTICAL)
-##        vbox1.Add(hbox1, 0, wx.EXPAND |wx.ALL, 5)
-##        vbox1.Add(self.allSongsLabel, 0, wx.ALL, 5)
-##        vbox1.Add(self.allSongsListbox, 1,  wx.EXPAND |  wx.ALL, 5)
+        vbox2 = wx.BoxSizer(wx.VERTICAL)
+        vbox2.Add(upButton, 1, wx.EXPAND | wx.ALL, 5)
+        vbox2.Add(newButton, 1,  wx.EXPAND | wx.ALL, 5)
+        vbox2.Add(editButton, 1,  wx.EXPAND | wx.ALL, 5)
 
-        hbox2 = wx.BoxSizer(wx.HORIZONTAL)
-        hbox2.Add(upButton, 1, wx.ALL, 5)
-        hbox2.Add(downButton, 1,  wx.ALL, 5)
-        hbox2.Add(newButton, 1,  wx.ALL, 5)
-        hbox2.Add(deleteButton, 1,  wx.ALL, 5)
-        hbox2.Add(editButton, 1,  wx.ALL, 5)
-        hbox2.Add(activeButton, 1,  wx.ALL, 5)
-        
+        vbox3 = wx.BoxSizer(wx.VERTICAL)
+        vbox3.Add(downButton, 1, wx.EXPAND | wx.ALL, 5)
+        vbox3.Add(deleteButton, 1, wx.EXPAND | wx.ALL, 5)
+        vbox3.Add(activeButton, 1, wx.EXPAND | wx.ALL, 5)
+ 
 
-        staticBox2 = wx.StaticBox(self, label='Setlist')
-        vbox2 = wx.StaticBoxSizer(staticBox2, wx.VERTICAL)
-        vbox2.Add(hbox2, 0, wx.EXPAND | wx.ALL, 5)
-##        vbox2.Add(self.setListLabel, 0, wx.ALL, 5)
-        vbox2.Add(self.sceneTextCtrl, 0, wx.EXPAND | wx.ALL, 5)
-        vbox2.Add(self.setListCtrl, 1, wx.EXPAND | wx.ALL, 5)
+        staticBox = wx.StaticBox(self, label='Setlist')
+        hbox2 = wx.StaticBoxSizer(staticBox, wx.HORIZONTAL)
+        hbox2.Add(vbox1, 4, wx.EXPAND | wx.ALL, 5)
+        hbox2.Add(vbox2, 1, wx.ALL, 5)
+        hbox2.Add(vbox3, 1, wx.ALL, 5)
+
 
         hbox = wx.BoxSizer(wx.HORIZONTAL)
-#        hbox.Add(vbox1, 1, wx.EXPAND)
-        hbox.Add(vbox2, 1, wx.EXPAND)
+        hbox.Add(hbox2, 1, wx.EXPAND)
 
-
-##        insertButton.Bind(wx.EVT_BUTTON, self.OnInsert)
         upButton.Bind(wx.EVT_BUTTON, self.OnUp)
         downButton.Bind(wx.EVT_BUTTON, self.OnDown)
         newButton.Bind(wx.EVT_BUTTON, self.OnNew)
@@ -92,14 +76,11 @@ class PageSetlist(wx.Panel):
 
         self.setListCtrl.Bind(wx.EVT_LIST_ITEM_SELECTED, self.OnSelectSetList)
         self.sceneTextCtrl.Bind(wx.EVT_TEXT, self.OnRenameScene)
-##        self.allSongsListbox.Bind(wx.EVT_LISTBOX, self.OnSelectAllSongsList)
 
         self.SetSizer(hbox)
 
 
     def Reload(self):
-##        self.allSongsListbox.Set(self.data.scenesName)
-##        self.setListLabel.SetLabel("")
         ## ChangeValue in order to not raise EVT_TEXT in TextCtrl ##
         self.sceneTextCtrl.ChangeValue("")
 
@@ -136,16 +117,11 @@ class PageSetlist(wx.Panel):
             else:
                 self.data.setlist["-"+textPos] = textScene   
 
-##    def OnSelectAllSongsList(self, event):
-##         sel = self.allSongsListbox.GetSelection()
-##         self.allSongsLabel.SetLabel(self.allSongsListbox.GetString(sel))  
-
 
     def OnSelectSetList(self, event):
         sel = self.setListCtrl.GetFirstSelected()
         item = self.setListCtrl.GetItem(sel, 2)
         text = item.GetText()
-##        self.setListLabel.SetLabel(text)
         self.sceneTextCtrl.SetValue(text)
 
 

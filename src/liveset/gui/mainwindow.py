@@ -132,7 +132,7 @@ class MainWindow(wx.Frame):
 #        self.p_livesetdings = subprocess.Popen(["/home/ale/liveset/liveset-0.8x/src/liveset/dings/run.py", self.filePath])
         self.p_livesetdings = subprocess.Popen(["livesetdings", self.filePath])
          # subprocess.Popen can call process in background
-        self.p_livedings = subprocess.Popen(["livedings","-T"])
+        self.p_livedings = subprocess.Popen(["livedings","-T", "-F", "Sans 24 bold", "-n", self.filename])
 
         time.sleep(3)
 
@@ -145,10 +145,10 @@ class MainWindow(wx.Frame):
         dialog = wx.FileDialog(None, "Open", data_dir, "", wildcard, wx.OPEN)
         if dialog.ShowModal() == wx.ID_OK:
             self.filePath = dialog.GetPath()
-            filename = dialog.GetFilename()
+            self.filename = dialog.GetFilename()
         dialog.Destroy()
         self.Reload()
-        self.SetTitle(filename)
+        self.SetTitle(self.filename)
 
 
     def OnSave(self, event):

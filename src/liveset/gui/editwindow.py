@@ -1,31 +1,22 @@
 # -*- coding: utf-8 -*-
 
 import wx
-##import wx.lib.scrolledpanel
 
-##class PageSongEdit(wx.lib.scrolledpanel.ScrolledPanel):
 class EditWindow(wx.Frame):
     def __init__(self, parent, data, sceneText):
         wx.Frame.__init__(self, None, title=sceneText)
-##        wx.lib.scrolledpanel.ScrolledPanel.__init__(self, parent)
-##        self.SetupScrolling()
 
         self.data = data
         self.sceneText = sceneText
 
-        ## Scenes listbox
-##        self.scenesListbox = wx.ListBox(self, -1)
        
         ## TextCtrls
 
-##        self.sceneTextCtrl = wx.TextCtrl(self)  
         self.subsceneTextCtrl = wx.TextCtrl(self)      
 
         ## Buttons
 
-##        newSceneButton = wx.Button(self, label='New Scene')
         newSubsceneButton = wx.Button(self, label='New Subscene')
-##        delSceneButton = wx.Button(self, label='Del Scene')
         delSubsceneButton = wx.Button(self, label='Del Subscene')
         closeButton = wx.Button(self, label='Close')
 
@@ -37,14 +28,20 @@ class EditWindow(wx.Frame):
         self.zones = 4
 
         self.partsCheckBox = []
+        self.MidiInChSpinCtrls = []
         self.MidiChSpinCtrls = []
         self.PCSpinCtrls = []
         self.Bank00SpinCtrls = []
         self.Bank32SpinCtrls = []
+        self.LowerKeySpinCtrls = []
+        self.UpperKeySpinCtrls = []
 
 
         for i in range(0, self.zones):
             self.partsCheckBox.append(wx.CheckBox(self, label="Part "+str(i+1)+":", style = wx.ALIGN_RIGHT))
+
+            self.MidiInChSpinCtrls.append(wx.SpinCtrl(self, value =str(i+1)))
+            self.MidiInChSpinCtrls[i].SetRange(1, 16)
 
             self.MidiChSpinCtrls.append(wx.SpinCtrl(self, value =str(i+1)))
             self.MidiChSpinCtrls[i].SetRange(1, 16)
@@ -58,35 +55,56 @@ class EditWindow(wx.Frame):
             self.Bank32SpinCtrls.append(wx.SpinCtrl(self, value ='0'))
             self.Bank32SpinCtrls[i].SetRange(0, 127)
 
+            self.LowerKeySpinCtrls.append(wx.SpinCtrl(self, value ='0'))  # sarebbe meglio un combobox o simile e un dict con i nomi nota mididings
+            self.LowerKeySpinCtrls[i].SetRange(0, 127)
 
-        PartText = wx.StaticText(self, label="Part")        
-        MidiChText = wx.StaticText(self, label="MIDI CH")
+            self.UpperKeySpinCtrls.append(wx.SpinCtrl(self, value ='0'))
+            self.UpperKeySpinCtrls[i].SetRange(0, 127)
+
+
+        PartText = wx.StaticText(self, label="Part")
+        MidiInChText = wx.StaticText(self, label="MIDI In CH")        
+        MidiChText = wx.StaticText(self, label="MIDI Out CH")
         PCText = wx.StaticText(self, label="Program Change")
         Bank00Text = wx.StaticText(self, label="Bank 00")
         Bank32Text = wx.StaticText(self, label="Bank 32")
+        LowerKeyText = wx.StaticText(self, label="Lower Key")
+        UpperKeyText = wx.StaticText(self, label="Upper Key")
 
-        Labels = [PartText, MidiChText, PCText, Bank00Text, Bank32Text]
+#        Labels = [PartText, MidiChText, PCText, Bank00Text, Bank32Text]
 
-        grid = wx.GridSizer(17, 5, 2, 2)
+#        grid = wx.GridSizer(17, 5, 2, 2)
   
-        grid.AddMany(Labels)
-        for i in range(0, self.zones):
-            grid.AddMany([self.partsCheckBox[i], self.MidiChSpinCtrls[i], self.PCSpinCtrls[i], self.Bank00SpinCtrls[i], self.Bank32SpinCtrls[i]])
+#        grid.AddMany(Labels)
+#        for i in range(0, self.zones):
+#            grid.AddMany([self.partsCheckBox[i], self.MidiChSpinCtrls[i], self.PCSpinCtrls[i], self.Bank00SpinCtrls[i], self.Bank32SpinCtrls[i]])
 
-        hbox1 = wx.BoxSizer(wx.HORIZONTAL)
-##        hbox1.Add(newSceneButton, 1, wx.EXPAND | wx.ALL, 5)
-##        hbox1.Add(delSceneButton, 1, wx.EXPAND | wx.ALL, 5)
+        grid = wx.GridSizer(8, self.zones+1, 2, 2)
+        grid.Add(PartText)
+        grid.AddMany(self.partsCheckBox)
+#        for i in range(0, self.zones):
+#            grid.Add(self.partsCheckBox[i], 0, wx.ALIGN_RIGHT)
+        grid.Add(MidiInChText)
+        grid.AddMany(self.MidiInChSpinCtrls)
+        grid.Add(MidiChText)
+#        for i in range(0, self.zones):
+#            grid.Add(self.MidiChSpinCtrls[i], 0, wx.ALIGN_RIGHT)
+        grid.AddMany(self.MidiChSpinCtrls)
+        grid.Add(PCText)
+        grid.AddMany(self.PCSpinCtrls)
+        grid.Add(Bank00Text)
+        grid.AddMany(self.Bank00SpinCtrls)
+        grid.Add(Bank32Text)
+        grid.AddMany(self.Bank32SpinCtrls)
+        grid.Add(LowerKeyText)
+        grid.AddMany(self.LowerKeySpinCtrls)
+        grid.Add(UpperKeyText)
+        grid.AddMany(self.UpperKeySpinCtrls)
 
-##        staticBox1 = wx.StaticBox(self, label='Scenes')
-##        vbox1 = wx.StaticBoxSizer(staticBox1, wx.VERTICAL)
-##        vbox1.Add(hbox1, 0, wx.EXPAND | wx.ALL, 5)
-##        vbox1.Add(self.sceneTextCtrl, 0, wx.EXPAND | wx.ALL, 5)
-##        vbox1.Add(self.scenesListbox, 1, wx.EXPAND | wx.ALL, 5)
 
         hbox2 = wx.BoxSizer(wx.HORIZONTAL)
         hbox2.Add(newSubsceneButton, 1, wx.EXPAND | wx.ALL, 5)
         hbox2.Add(delSubsceneButton, 1, wx.EXPAND | wx.ALL, 5)
-        hbox2.Add(closeButton, 1, wx.EXPAND | wx.ALL, 5)
 
         staticBox2 = wx.StaticBox(self, label='Subscenes')
         vbox2 = wx.StaticBoxSizer(staticBox2, wx.VERTICAL)
@@ -95,22 +113,18 @@ class EditWindow(wx.Frame):
         vbox2.Add(self.subscenesListbox, 1, wx.EXPAND | wx.ALL, 5)
 
         vbox3 = wx.BoxSizer(wx.VERTICAL)
-        vbox3.Add(grid, 1,  wx.ALL, 5)
+        vbox3.Add(grid, 0,  wx.ALL, 5)
+        vbox3.Add(closeButton, 0, wx.ALL | wx.CENTER, 5)
 
         hbox = wx.BoxSizer(wx.HORIZONTAL)
-##        hbox.Add(vbox1, 1,  wx.EXPAND | wx.ALL, 5)
         hbox.Add(vbox2, 1,  wx.EXPAND | wx.ALL, 5)
         hbox.Add(vbox3, 0,  wx.EXPAND | wx.ALL, 5)
 
         ## Binding
 
-##        newSceneButton.Bind(wx.EVT_BUTTON, self.OnNewSceneButton) 
         newSubsceneButton.Bind(wx.EVT_BUTTON, self.OnNewSubsceneButton)
-##        delSceneButton.Bind(wx.EVT_BUTTON, self.OnDelSceneButton) 
         delSubsceneButton.Bind(wx.EVT_BUTTON, self.OnDelSubsceneButton)  
-##        self.sceneTextCtrl.Bind(wx.EVT_TEXT, self.OnEditScene)
         self.subsceneTextCtrl.Bind(wx.EVT_TEXT, self.OnEditSubscene)
-##        self.scenesListbox.Bind(wx.EVT_LISTBOX, self.OnSelectScene)
         self.subscenesListbox.Bind(wx.EVT_LISTBOX, self.OnSelectSubscene)
         closeButton.Bind(wx.EVT_BUTTON, self.OnCloseButton)
 
@@ -127,11 +141,6 @@ class EditWindow(wx.Frame):
 
     def OnLoad(self):
         self.subscenesListbox.Clear()
-##        sceneSel = self.scenesListbox.GetSelection()
-##       sceneText = self.scenesListbox.GetString(sceneSel)
-
-##        ## ChangeValue in order to not raise EVT_TEXT in TextCtrl ##
-##        self.sceneTextCtrl.ChangeValue(self.sceneText)
 
         for subsceneSel in self.data.scenes[self.sceneText]:
             for subsceneText in subsceneSel:
@@ -140,29 +149,8 @@ class EditWindow(wx.Frame):
         self.subscenesListbox.Select(0)
         self.OnSelectSubscene(wx.EVT_LISTBOX)
 
-#    def Reload(self):
-#        self.scenesListbox.Set(self.data.scenesName)
-#        if len(self.data.scenesName) == 0:
-#            self.scenesListbox.Append(self.InitScene())     
-#        self.scenesListbox.Select(0)        
-#        self.OnSelectScene(wx.EVT_LISTBOX)
 
-#    def OnEditScene(self, event):
-#        sceneSel = self.scenesListbox.GetSelection()
-#        oldText = self.scenesListbox.GetString(sceneSel)
-#        newText = self.sceneTextCtrl.GetValue()
-
-#        self.scenesListbox.SetString(sceneSel, newText)
-
-#        if oldText != newText:
-#            self.data.scenes[newText] = self.data.scenes[oldText]
-#            del self.data.scenes[oldText]
-
-
-    def OnEditSubscene(self, event):
-        #sceneSel = self.scenesListbox.GetSelection()
-        #sceneText = self.scenesListbox.GetString(sceneSel)
-        
+    def OnEditSubscene(self, event):      
         subsceneSel = self.subscenesListbox.GetSelection()
         oldText = self.subscenesListbox.GetString(subsceneSel)
         newText = self.subsceneTextCtrl.GetValue()
@@ -172,7 +160,6 @@ class EditWindow(wx.Frame):
         if oldText != newText:
             self.data.scenes[self.sceneText][subsceneSel][newText] = self.data.scenes[self.sceneText][subsceneSel][oldText]
             del self.data.scenes[self.sceneText][subsceneSel][oldText]
-#### ANCHE QUI RAGIONARE SULLE OCCORRENZE COME SU SETLISTPAGE ##
 
 
     def InitPart(self):
@@ -183,27 +170,11 @@ class EditWindow(wx.Frame):
         part["CC32"] = 0
         return part
 
+
     def InitSubscene(self):
         part = self.InitPart()
         subscene = [part]
         return subscene
-
-#    def InitScene(self):
-#        sceneText = "New Scene"
-#        subsceneText = "--"
-#        self.data.scenes[sceneText] = [{}]
-#        part = 0
-#        self.data.scenes[sceneText][part][subsceneText] = self.InitSubscene()
-#        return sceneText
-
-#    def OnNewSceneButton(self, event):
-#        sceneText = self.InitScene()
-
-#        ## New scene added at the end of the listbox
-#        self.scenesListbox.Append(sceneText)
-#        subsceneCount = self.scenesListbox.GetCount()
-#        self.scenesListbox.Select(subsceneCount-1)
-#        self.OnSelectScene(wx.EVT_LISTBOX)
 
 
     def OnNewSubsceneButton(self, event):
@@ -217,22 +188,7 @@ class EditWindow(wx.Frame):
         self.OnSelectSubscene(wx.EVT_LISTBOX)
 
 
-#    def OnDelSceneButton(self, event):
-#        sceneSel = self.scenesListbox.GetSelection()
-#        sceneText = self.scenesListbox.GetString(sceneSel)
-#        if sceneSel != -1:
-#            self.scenesListbox.Delete(sceneSel)
-#            del self.data.scenes[sceneText]
-#            try:
-#                self.scenesListbox.Select(sceneSel)
-#            except:
-#                self.scenesListbox.Select(sceneSel-1)
-#            self.OnSelectScene(wx.EVT_LISTBOX)
-
-
     def OnDelSubsceneButton(self, event):
-        ##sceneSel = self.scenesListbox.GetSelection()
-        ##sceneText = self.scenesListbox.GetString(sceneSel)
         subsceneSel = self.subscenesListbox.GetSelection()
         subsceneText = self.subscenesListbox.GetString(subsceneSel)
 
@@ -250,8 +206,6 @@ class EditWindow(wx.Frame):
         subsceneSel = self.subscenesListbox.GetSelection()
         subsceneText = self.subscenesListbox.GetString(subsceneSel)
 
-        ##sceneSel = self.scenesListbox.GetSelection()
-        ##sceneText = self.scenesListbox.GetString(sceneSel)
         self.subsceneTextCtrl.ChangeValue(subsceneText) 
 
         subscene = self.data.scenes[self.sceneText][subsceneSel][subsceneText]
