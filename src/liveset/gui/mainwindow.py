@@ -138,8 +138,16 @@ class MainWindow(wx.Frame):
             time.sleep(3)
 
             # maximize livedings window ## METTERE UN'OPZIONE SU SETTINGS
-#            subprocess.Popen(["wmctrl","-r","livedings","-b","add,fullscreen"])
-            subprocess.Popen(["wmctrl","-r","livedings","-b","add,maximized_vert,maximized_horz"])
+            try:
+                with open(settings_file) as data_file:
+                    self.options = json.load(data_file)
+            except:
+                self.options["livedingsView"] = "Maximized"
+
+            if self.options["livedingsView"] == "Fullscreen":
+                subprocess.Popen(["wmctrl","-r","livedings","-b","add,fullscreen"])
+            elif self.options["livedingsView"] == "Maximized":
+                subprocess.Popen(["wmctrl","-r","livedings","-b","add,maximized_vert,maximized_horz"])
         else:
             print("There is only one scene. Please add more scenes")  
 

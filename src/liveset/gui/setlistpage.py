@@ -3,6 +3,8 @@
 import wx
 import wx.lib.mixins.listctrl as listmix
 
+import mididings.util
+
 from .editwindow import EditWindow, Subscene
 
 sign = lambda x : 1 if x>0 else -1 if x <0 else 0
