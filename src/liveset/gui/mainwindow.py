@@ -20,33 +20,47 @@ class MainWindow(wx.Frame):
     def __init__(self, parent, title):
         wx.Frame.__init__(self, parent, title=title)
 
-        filemenu = wx.Menu()
-        settingsmenu = wx.Menu()
-        helpmenu = wx.Menu()
-        menuOpen = filemenu.Append(wx.ID_OPEN)
-        menuSave = filemenu.Append(wx.ID_SAVE)
-        menuSaveAs = filemenu.Append(wx.ID_SAVEAS)
-        menuQuit = filemenu.Append(wx.ID_EXIT)
-        menuOptions = settingsmenu.Append(wx.ID_PROPERTIES, '&Settings', 'Configuration of the program')
-        menuAbout = helpmenu.Append(wx.ID_ABOUT, '&About', 'Information about the program')
-        menubar = wx.MenuBar()
-        menubar.Append(filemenu, '&File')
-        menubar.Append(settingsmenu, '&Settings')
-        menubar.Append(helpmenu, '&Help')
-        self.SetMenuBar(menubar)
-
-        self.toolbar = self.CreateToolBar()
-        openButton = wx.Button(self.toolbar, wx.ID_OPEN)
-        saveButton = wx.Button(self.toolbar, wx.ID_SAVE)
-        saveAsButton = wx.Button(self.toolbar, wx.ID_SAVEAS)
-        startSessionButton = wx.Button(self.toolbar, label='Start Session')
-        self.toolbar.AddControl(openButton)
-        self.toolbar.AddControl(saveButton)
-        self.toolbar.AddControl(saveAsButton)
-        self.toolbar.AddControl(startSessionButton)
-        self.toolbar.Realize()
+#        filemenu = wx.Menu()
+#        settingsmenu = wx.Menu()
+#        helpmenu = wx.Menu()
+#        menuOpen = filemenu.Append(wx.ID_OPEN)
+#        menuSave = filemenu.Append(wx.ID_SAVE)
+#        menuSaveAs = filemenu.Append(wx.ID_SAVEAS)
+#        menuQuit = filemenu.Append(wx.ID_EXIT)
+#        menuOptions = settingsmenu.Append(wx.ID_PROPERTIES, '&Settings', 'Configuration of the program')
+#        menuAbout = helpmenu.Append(wx.ID_ABOUT, '&About', 'Information about the program')
+#        menubar = wx.MenuBar()
+#        menubar.Append(filemenu, '&File')
+#        menubar.Append(settingsmenu, '&Settings')
+#        menubar.Append(helpmenu, '&Help')
+#        self.SetMenuBar(menubar)
 
         panel = wx.Panel(self, -1)
+
+#        self.toolbar = self.CreateToolBar()
+        self.toolbar1 = wx.ToolBar(panel)
+        self.toolbar2 = wx.ToolBar(panel)
+        openButton = wx.Button(self.toolbar1, wx.ID_OPEN)
+        saveButton = wx.Button(self.toolbar1, wx.ID_SAVE)
+        saveAsButton = wx.Button(self.toolbar1, wx.ID_SAVEAS)
+        startSessionButton = wx.Button(self.toolbar1, label='Start Session')
+        settingsButton = wx.Button(self.toolbar2, label='Settings')
+        aboutButton = wx.Button(self.toolbar2, wx.ID_ABOUT, label='About')
+        self.toolbar1.AddControl(openButton)
+        self.toolbar1.AddControl(saveButton)
+        self.toolbar1.AddControl(saveAsButton)
+        self.toolbar1.AddControl(startSessionButton)
+        self.toolbar1.Realize()
+        self.toolbar2.AddControl(settingsButton)
+        self.toolbar2.AddControl(aboutButton)
+        self.toolbar2.Realize()
+
+        hbox = wx.BoxSizer(wx.HORIZONTAL)
+        hbox.Add(self.toolbar1, 0)
+        hbox.AddStretchSpacer(1)
+        hbox.Add(self.toolbar2, 0)
+
+
 
 ##        nb = wx.Notebook(panel)
 
@@ -62,26 +76,30 @@ class MainWindow(wx.Frame):
 
 ## Buttons
 
-        box = wx.BoxSizer(wx.HORIZONTAL)
+        box = wx.BoxSizer(wx.VERTICAL)
 ##        box.Add(nb, 2, wx.EXPAND)
-        box.Add(self.pageSetlist, 2, wx.EXPAND)
+        box.Add(hbox, 0, wx.EXPAND)
+        box.Add(self.pageSetlist, 1, wx.EXPAND)
         panel.SetSizer(box)
 
 ## Binding
 
-        self.Bind(wx.EVT_MENU, self.OnOptions, menuOptions)
-        self.Bind(wx.EVT_MENU, self.OnOpen, menuOpen)
-        self.Bind(wx.EVT_MENU, self.OnSave, menuSave)
-        self.Bind(wx.EVT_MENU, self.OnSaveAs, menuSaveAs)
-        self.Bind(wx.EVT_MENU, self.OnAbout, menuAbout)
-        self.Bind(wx.EVT_MENU, self.OnQuit, menuQuit)
+#        self.Bind(wx.EVT_MENU, self.OnOptions, menuOptions)
+#        self.Bind(wx.EVT_MENU, self.OnOpen, menuOpen)
+#        self.Bind(wx.EVT_MENU, self.OnSave, menuSave)
+#        self.Bind(wx.EVT_MENU, self.OnSaveAs, menuSaveAs)
+#        self.Bind(wx.EVT_MENU, self.OnAbout, menuAbout)
+#        self.Bind(wx.EVT_MENU, self.OnQuit, menuQuit)
         self.Bind(wx.EVT_BUTTON, self.OnOpen, openButton)
         self.Bind(wx.EVT_BUTTON, self.OnSave, saveButton)
         self.Bind(wx.EVT_BUTTON, self.OnSaveAs, saveAsButton)
         self.Bind(wx.EVT_BUTTON, self.OnStartSession, startSessionButton)
+        self.Bind(wx.EVT_BUTTON, self.OnOptions, settingsButton)
+        self.Bind(wx.EVT_BUTTON, self.OnAbout, aboutButton)
         self.Bind(wx.EVT_CLOSE, self.OnClose)
 ##        self.Bind(wx.EVT_NOTEBOOK_PAGE_CHANGED, self.OnPageChanged, nb)
 
+ 
         self.Show()
         self.Maximize(True)
         self.filename = filename
@@ -182,7 +200,8 @@ class MainWindow(wx.Frame):
 
     def OnAbout(self, event):
         string = '''LiveSet - Setlist Programmer
-Copyright (C) 2016-2019 Alessandro Filippo'''
+Copyright (C) 2016-2019 Alessandro Filippo
+License: GPL-2+'''
 
         dialog = wx.MessageDialog(self, string, 'About', wx.OK | wx.ALIGN_CENTRE)
         dialog.ShowModal()

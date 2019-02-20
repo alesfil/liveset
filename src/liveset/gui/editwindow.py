@@ -118,6 +118,7 @@ class EditWindow(wx.Frame):
 #        grid.AddMany(self.UpperKeySpinCtrls)
         grid.AddMany(self.UpperKeyComboBox)
 
+
         hbox2 = wx.BoxSizer(wx.HORIZONTAL)
         hbox2.Add(newSubsceneButton, 1, wx.EXPAND | wx.ALL, 5)
         hbox2.Add(delSubsceneButton, 1, wx.EXPAND | wx.ALL, 5)
@@ -129,7 +130,7 @@ class EditWindow(wx.Frame):
         vbox2.Add(self.subscenesListbox, 1, wx.EXPAND | wx.ALL, 5)
 
         vbox3 = wx.BoxSizer(wx.VERTICAL)
-        vbox3.Add(grid, 0,  wx.ALL, 5)
+        vbox3.Add(grid, 0,  wx.ALL, 1)
         vbox3.Add(closeButton, 0, wx.ALL | wx.CENTER, 5)
 
         hbox = wx.BoxSizer(wx.HORIZONTAL)
