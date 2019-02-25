@@ -56,9 +56,7 @@ class EditWindow(wx.Frame):
         self.PCSpinCtrls = []
         self.Bank00SpinCtrls = []
         self.Bank32SpinCtrls = []
-#        self.LowerKeySpinCtrls = []
         self.LowerKeyComboBox = []
-#        self.UpperKeySpinCtrls = []
         self.UpperKeyComboBox = []
 
 
@@ -67,25 +65,30 @@ class EditWindow(wx.Frame):
 
             self.MidiInChSpinCtrls.append(wx.SpinCtrl(self, value =str(i+1)))
             self.MidiInChSpinCtrls[i].SetRange(1, 16)
+	    textSize = self.MidiInChSpinCtrls[i].GetTextExtent("999")
+            textWidth = textSize[0]
+            spinCtrlWidth = textWidth*2.5  # empiric value
+            self.MidiInChSpinCtrls[i].SetMinSize((spinCtrlWidth, -1)) # -1 default
+
 
             self.MidiChSpinCtrls.append(wx.SpinCtrl(self, value =str(i+1)))
             self.MidiChSpinCtrls[i].SetRange(1, 16)
+            self.MidiChSpinCtrls[i].SetMinSize((spinCtrlWidth, -1))
 
             self.PCSpinCtrls.append(wx.SpinCtrl(self, value ='0'))
             self.PCSpinCtrls[i].SetRange(1, 128)
+            self.PCSpinCtrls[i].SetMinSize((spinCtrlWidth, -1))
 
             self.Bank00SpinCtrls.append(wx.SpinCtrl(self, value ='0'))
             self.Bank00SpinCtrls[i].SetRange(0, 127)
+            self.Bank00SpinCtrls[i].SetMinSize((spinCtrlWidth, -1))
 
             self.Bank32SpinCtrls.append(wx.SpinCtrl(self, value ='0'))
             self.Bank32SpinCtrls[i].SetRange(0, 127)
+            self.Bank32SpinCtrls[i].SetMinSize((spinCtrlWidth, -1))
 
-#            self.LowerKeySpinCtrls.append(wx.SpinCtrl(self, value ='0'))  # sarebbe meglio un combobox o simile e un dict con i nomi nota mididings
-#            self.LowerKeySpinCtrls[i].SetRange(0, 127)
             self.LowerKeyComboBox.append(wx.ComboBox(self, choices=noteList, style=wx.CB_READONLY))
 
-#            self.UpperKeySpinCtrls.append(wx.SpinCtrl(self, value ='0'))
-#            self.UpperKeySpinCtrls[i].SetRange(0, 127)
             self.UpperKeyComboBox.append(wx.ComboBox(self, choices=noteList, style=wx.CB_READONLY))
 
 
@@ -98,25 +101,35 @@ class EditWindow(wx.Frame):
         LowerKeyText = wx.StaticText(self, label="Lower Key")
         UpperKeyText = wx.StaticText(self, label="Upper Key")
 
-        grid = wx.GridSizer(8, self.zones+1, 2, 2)
-        grid.Add(PartText)
-        grid.AddMany(self.partsCheckBox)
-        grid.Add(MidiInChText)
-        grid.AddMany(self.MidiInChSpinCtrls)
-        grid.Add(MidiChText)
-        grid.AddMany(self.MidiChSpinCtrls)
-        grid.Add(PCText)
-        grid.AddMany(self.PCSpinCtrls)
-        grid.Add(Bank00Text)
-        grid.AddMany(self.Bank00SpinCtrls)
-        grid.Add(Bank32Text)
-        grid.AddMany(self.Bank32SpinCtrls)
-        grid.Add(LowerKeyText)
-#        grid.AddMany(self.LowerKeySpinCtrls)
-        grid.AddMany(self.LowerKeyComboBox)
-        grid.Add(UpperKeyText)
-#        grid.AddMany(self.UpperKeySpinCtrls)
-        grid.AddMany(self.UpperKeyComboBox)
+        grid = wx.FlexGridSizer(8, self.zones+1, 2, 2)
+        grid.AddGrowableCol(0, 2)
+        for i in range(1, self.zones+1):
+            grid.AddGrowableCol(i, 1)
+
+        grid.Add(PartText, 1, wx.EXPAND)
+        for i in range(0, self.zones):     
+            grid.Add(self.partsCheckBox[i], 0)
+        grid.Add(MidiInChText, 1, wx.EXPAND)
+        for i in range(0, self.zones):
+            grid.Add(self.MidiInChSpinCtrls[i], 1, wx.EXPAND)
+        grid.Add(MidiChText, 1, wx.EXPAND)
+        for i in range(0, self.zones):
+            grid.Add(self.MidiChSpinCtrls[i], 1, wx.EXPAND)
+        grid.Add(PCText, 1, wx.EXPAND)
+        for i in range(0, self.zones):
+            grid.Add(self.PCSpinCtrls[i], 1, wx.EXPAND)
+        grid.Add(Bank00Text, 1, wx.EXPAND)
+        for i in range(0, self.zones):
+            grid.Add(self.Bank00SpinCtrls[i], 1, wx.EXPAND)
+        grid.Add(Bank32Text, 1, wx.EXPAND)
+        for i in range(0, self.zones):
+            grid.Add(self.Bank32SpinCtrls[i], 1, wx.EXPAND)
+        grid.Add(LowerKeyText, 1, wx.EXPAND)
+        for i in range(0, self.zones):
+            grid.Add(self.LowerKeyComboBox[i], 1, wx.EXPAND)
+        grid.Add(UpperKeyText, 1, wx.EXPAND)
+        for i in range(0, self.zones):
+            grid.Add(self.UpperKeyComboBox[i], 1, wx.EXPAND)
 
 
         hbox2 = wx.BoxSizer(wx.HORIZONTAL)
@@ -130,12 +143,12 @@ class EditWindow(wx.Frame):
         vbox2.Add(self.subscenesListbox, 1, wx.EXPAND | wx.ALL, 5)
 
         vbox3 = wx.BoxSizer(wx.VERTICAL)
-        vbox3.Add(grid, 0,  wx.ALL, 1)
+        vbox3.Add(grid, 0,  wx.EXPAND | wx.ALL, 1)
         vbox3.Add(closeButton, 0, wx.ALL | wx.CENTER, 5)
 
         hbox = wx.BoxSizer(wx.HORIZONTAL)
         hbox.Add(vbox2, 1,  wx.EXPAND | wx.ALL, 5)
-        hbox.Add(vbox3, 0,  wx.EXPAND | wx.ALL, 5)
+        hbox.Add(vbox3, 1,  wx.EXPAND | wx.ALL, 5)
 
         ## Binding
 
@@ -151,9 +164,7 @@ class EditWindow(wx.Frame):
             self.MidiChSpinCtrls[part].Bind(wx.EVT_SPINCTRL, lambda evt, temp=part: self.OnMidiSpinCtrl(evt, temp))
             self.PCSpinCtrls[part].Bind(wx.EVT_SPINCTRL, lambda evt, temp=part: self.OnPCSpinCtrl(evt, temp))
             self.Bank00SpinCtrls[part].Bind(wx.EVT_SPINCTRL, lambda evt, temp=part: self.OnBank00SpinCtrl(evt, temp))
-#            self.LowerKeySpinCtrls[part].Bind(wx.EVT_SPINCTRL, lambda evt, temp=part: self.OnLowerKeySpinCtrl(evt, temp))
             self.LowerKeyComboBox[part].Bind(wx.EVT_COMBOBOX, lambda evt, temp=part: self.OnLowerKeyComboBox(evt, temp))
-#            self.UpperKeySpinCtrls[part].Bind(wx.EVT_SPINCTRL, lambda evt, temp=part: self.OnUpperKeySpinCtrl(evt, temp))
             self.UpperKeyComboBox[part].Bind(wx.EVT_COMBOBOX, lambda evt, temp=part: self.OnUpperKeyComboBox(evt, temp))
    
         self.SetSizer(hbox)
@@ -222,10 +233,8 @@ class EditWindow(wx.Frame):
                 self.PCSpinCtrls[part].SetValue(subscene[part]['PC'])
                 self.Bank00SpinCtrls[part].SetValue(subscene[part]['CC0'])
                 self.Bank32SpinCtrls[part].SetValue(subscene[part]['CC32'])
-#                self.LowerKeySpinCtrls[part].SetValue(subscene[part]['Lower'])
                 lowerNote = noteList[subscene[part]['Lower']]
                 self.LowerKeyComboBox[part].SetValue(lowerNote)
-#                self.UpperKeySpinCtrls[part].SetValue(subscene[part]['Upper'])
                 upperNote = noteList[subscene[part]['Upper']]
                 self.UpperKeyComboBox[part].SetValue(upperNote)
 
@@ -258,22 +267,15 @@ class EditWindow(wx.Frame):
         sender = event.GetEventObject()
         self.selectedSubscene[part]['CC32'] = sender.GetValue()
 
-#    def OnLowerKeySpinCtrl(self, event, part):
-#        sender = event.GetEventObject()
-#        self.selectedSubscene[part]['Lower'] = sender.GetValue()
     def OnLowerKeyComboBox(self, event, part):
         sender = event.GetEventObject()
         noteNumber = mididings.util.note_number(str(sender.GetValue()))
         self.selectedSubscene[part]['Lower'] = noteNumber
 
-#    def OnUpperKeySpinCtrl(self, event, part):
-#        sender = event.GetEventObject()
-#        self.selectedSubscene[part]['Upper'] = sender.GetValue()
     def OnUpperKeyComboBox(self, event, part):
         sender = event.GetEventObject()
         noteNumber = mididings.util.note_number(str(sender.GetValue()))
         self.selectedSubscene[part]['Upper'] = noteNumber
-
 
     def OnSelectPart(self, event, part):
         sender = event.GetEventObject()
@@ -294,9 +296,7 @@ class EditWindow(wx.Frame):
         self.PCSpinCtrls[part].Enable()
         self.Bank00SpinCtrls[part].Enable()
         self.Bank32SpinCtrls[part].Enable()
-#        self.LowerKeySpinCtrls[part].Enable()
         self.LowerKeyComboBox[part].Enable()
-#        self.UpperKeySpinCtrls[part].Enable()
         self.UpperKeyComboBox[part].Enable()
 
 
@@ -306,9 +306,7 @@ class EditWindow(wx.Frame):
         self.PCSpinCtrls[part].Disable()
         self.Bank00SpinCtrls[part].Disable()
         self.Bank32SpinCtrls[part].Disable() 
-#        self.LowerKeySpinCtrls[part].Disable() 
         self.LowerKeyComboBox[part].Disable()
-#        self.UpperKeySpinCtrls[part].Disable()
         self.UpperKeyComboBox[part].Disable() 
 
     def OnCloseButton(self, event):
