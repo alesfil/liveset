@@ -6,7 +6,7 @@ from mididings.extra.osc import OSCInterface
 import mididings.engine as engine
 import mididings.util
 from liveset.livesetconf import *
-from liveset.utils.files import *
+from liveset.files import *
 
 import json
 import time

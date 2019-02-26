@@ -29,23 +29,25 @@ class EditWindow(wx.Frame):
     def __init__(self, parent, data, sceneText):
         wx.Frame.__init__(self, None, title=sceneText)
 
+        panel = wx.Panel(self)
+
         self.data = data
         self.sceneText = sceneText
 
        
         ## TextCtrls
 
-        self.subsceneTextCtrl = wx.TextCtrl(self)      
+        self.subsceneTextCtrl = wx.TextCtrl(panel)      
 
         ## Buttons
 
-        newSubsceneButton = wx.Button(self, label='New Subscene')
-        delSubsceneButton = wx.Button(self, label='Del Subscene')
-        closeButton = wx.Button(self, label='Close')
+        newSubsceneButton = wx.Button(panel, label='New Subscene')
+        delSubsceneButton = wx.Button(panel, label='Del Subscene')
+        closeButton = wx.Button(panel, label='Close')
 
         ## Subscenes list box
 
-        self.subscenesListbox = wx.ListBox(self, -1)
+        self.subscenesListbox = wx.ListBox(panel, -1)
 
         ## zone (parts) number
         self.zones = 4
@@ -61,9 +63,10 @@ class EditWindow(wx.Frame):
 
 
         for i in range(0, self.zones):
-            self.partsCheckBox.append(wx.CheckBox(self, label="Part "+str(i+1)+":", style = wx.ALIGN_RIGHT))
+            self.partsCheckBox.append( \
+                wx.CheckBox(panel, label="Part "+str(i+1)+":", style = wx.ALIGN_RIGHT))
 
-            self.MidiInChSpinCtrls.append(wx.SpinCtrl(self, value =str(i+1)))
+            self.MidiInChSpinCtrls.append(wx.SpinCtrl(panel, value =str(i+1)))
             self.MidiInChSpinCtrls[i].SetRange(1, 16)
 	    textSize = self.MidiInChSpinCtrls[i].GetTextExtent("999")
             textWidth = textSize[0]
@@ -71,35 +74,35 @@ class EditWindow(wx.Frame):
             self.MidiInChSpinCtrls[i].SetMinSize((spinCtrlWidth, -1)) # -1 default
 
 
-            self.MidiChSpinCtrls.append(wx.SpinCtrl(self, value =str(i+1)))
+            self.MidiChSpinCtrls.append(wx.SpinCtrl(panel, value =str(i+1)))
             self.MidiChSpinCtrls[i].SetRange(1, 16)
             self.MidiChSpinCtrls[i].SetMinSize((spinCtrlWidth, -1))
 
-            self.PCSpinCtrls.append(wx.SpinCtrl(self, value ='0'))
+            self.PCSpinCtrls.append(wx.SpinCtrl(panel, value ='0'))
             self.PCSpinCtrls[i].SetRange(1, 128)
             self.PCSpinCtrls[i].SetMinSize((spinCtrlWidth, -1))
 
-            self.Bank00SpinCtrls.append(wx.SpinCtrl(self, value ='0'))
+            self.Bank00SpinCtrls.append(wx.SpinCtrl(panel, value ='0'))
             self.Bank00SpinCtrls[i].SetRange(0, 127)
             self.Bank00SpinCtrls[i].SetMinSize((spinCtrlWidth, -1))
 
-            self.Bank32SpinCtrls.append(wx.SpinCtrl(self, value ='0'))
+            self.Bank32SpinCtrls.append(wx.SpinCtrl(panel, value ='0'))
             self.Bank32SpinCtrls[i].SetRange(0, 127)
             self.Bank32SpinCtrls[i].SetMinSize((spinCtrlWidth, -1))
 
-            self.LowerKeyComboBox.append(wx.ComboBox(self, choices=noteList, style=wx.CB_READONLY))
+            self.LowerKeyComboBox.append(wx.ComboBox(panel, choices=noteList, style=wx.CB_READONLY))
 
-            self.UpperKeyComboBox.append(wx.ComboBox(self, choices=noteList, style=wx.CB_READONLY))
+            self.UpperKeyComboBox.append(wx.ComboBox(panel, choices=noteList, style=wx.CB_READONLY))
 
 
-        PartText = wx.StaticText(self, label="Part")
-        MidiInChText = wx.StaticText(self, label="MIDI In CH")        
-        MidiChText = wx.StaticText(self, label="MIDI Out CH")
-        PCText = wx.StaticText(self, label="Program Change")
-        Bank00Text = wx.StaticText(self, label="Bank 00")
-        Bank32Text = wx.StaticText(self, label="Bank 32")
-        LowerKeyText = wx.StaticText(self, label="Lower Key")
-        UpperKeyText = wx.StaticText(self, label="Upper Key")
+        PartText = wx.StaticText(panel, label="Part")
+        MidiInChText = wx.StaticText(panel, label="MIDI In CH")        
+        MidiChText = wx.StaticText(panel, label="MIDI Out CH")
+        PCText = wx.StaticText(panel, label="Program Change")
+        Bank00Text = wx.StaticText(panel, label="Bank 00")
+        Bank32Text = wx.StaticText(panel, label="Bank 32")
+        LowerKeyText = wx.StaticText(panel, label="Lower Key")
+        UpperKeyText = wx.StaticText(panel, label="Upper Key")
 
         grid = wx.FlexGridSizer(8, self.zones+1, 2, 2)
         grid.AddGrowableCol(0, 2)
@@ -136,7 +139,7 @@ class EditWindow(wx.Frame):
         hbox2.Add(newSubsceneButton, 1, wx.EXPAND | wx.ALL, 5)
         hbox2.Add(delSubsceneButton, 1, wx.EXPAND | wx.ALL, 5)
 
-        staticBox2 = wx.StaticBox(self, label='Subscenes')
+        staticBox2 = wx.StaticBox(panel, label='Subscenes')
         vbox2 = wx.StaticBoxSizer(staticBox2, wx.VERTICAL)
         vbox2.Add(hbox2, 0, wx.EXPAND | wx.ALL, 5)
         vbox2.Add(self.subsceneTextCtrl, 0, wx.EXPAND | wx.ALL, 5)
@@ -159,15 +162,26 @@ class EditWindow(wx.Frame):
         closeButton.Bind(wx.EVT_BUTTON, self.OnCloseButton)
 
         for part in range(0, self.zones):
-            self.partsCheckBox[part].Bind(wx.EVT_CHECKBOX, lambda evt, temp=part: self.OnSelectPart(evt, temp))
-            self.MidiInChSpinCtrls[part].Bind(wx.EVT_SPINCTRL, lambda evt, temp=part: self.OnMidiInSpinCtrl(evt, temp))
-            self.MidiChSpinCtrls[part].Bind(wx.EVT_SPINCTRL, lambda evt, temp=part: self.OnMidiSpinCtrl(evt, temp))
-            self.PCSpinCtrls[part].Bind(wx.EVT_SPINCTRL, lambda evt, temp=part: self.OnPCSpinCtrl(evt, temp))
-            self.Bank00SpinCtrls[part].Bind(wx.EVT_SPINCTRL, lambda evt, temp=part: self.OnBank00SpinCtrl(evt, temp))
-            self.LowerKeyComboBox[part].Bind(wx.EVT_COMBOBOX, lambda evt, temp=part: self.OnLowerKeyComboBox(evt, temp))
-            self.UpperKeyComboBox[part].Bind(wx.EVT_COMBOBOX, lambda evt, temp=part: self.OnUpperKeyComboBox(evt, temp))
+            self.partsCheckBox[part].Bind(\
+               wx.EVT_CHECKBOX, lambda evt, temp=part: self.OnSelectPart(evt, temp))
+            self.MidiInChSpinCtrls[part].Bind(\
+               wx.EVT_SPINCTRL, lambda evt, temp=part: self.OnMidiInSpinCtrl(evt, temp))
+            self.MidiChSpinCtrls[part].Bind(\
+               wx.EVT_SPINCTRL, lambda evt, temp=part: self.OnMidiSpinCtrl(evt, temp))
+            self.PCSpinCtrls[part].Bind(\
+               wx.EVT_SPINCTRL, lambda evt, temp=part: self.OnPCSpinCtrl(evt, temp))
+            self.Bank00SpinCtrls[part].Bind(\
+               wx.EVT_SPINCTRL, lambda evt, temp=part: self.OnBank00SpinCtrl(evt, temp))
+            self.LowerKeyComboBox[part].Bind(\
+               wx.EVT_COMBOBOX, lambda evt, temp=part: self.OnLowerKeyComboBox(evt, temp))
+            self.UpperKeyComboBox[part].Bind(\
+               wx.EVT_COMBOBOX, lambda evt, temp=part: self.OnUpperKeyComboBox(evt, temp))
    
-        self.SetSizer(hbox)
+        panel.SetSizer(hbox)
+	sizer = wx.BoxSizer(wx.HORIZONTAL)
+    	sizer.Add(panel, 1, wx.EXPAND)
+    	self.SetSizerAndFit(sizer)
+
         self.OnLoad()
 
 
