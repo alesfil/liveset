@@ -3,11 +3,12 @@ Upstream-Name: liveset
 Source: <https://github.com/alesfil/liveset>
 
 Files: *
-Copyright: 2016-2018, Alessandro Filippo alessandro.filippo@infinito.it
+Copyright: 2016-2019, Alessandro Filippo alessandro.filippo@infinito.it
 License: GPL-2+
 
 Files: debian/*
-Copyright: 2016-2018 Alessandro Filippo <alessandro.filippo@infinito.it>
+Copyright: 2016-2019 Alessandro Filippo <alessandro.filippo@infinito.it>
+
 License: GPL-2+
  This package is free software; you can redistribute it and/or modify
  it under the terms of the GNU General Public License as published by

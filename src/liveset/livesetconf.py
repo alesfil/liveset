@@ -17,5 +17,6 @@ if not os.path.exists(config_dir):
 if not os.path.exists(data_dir):
     os.makedirs(data_dir)
 
+filename = ".scenes.json"
 settings_file = os.path.join(config_dir, "settings.json")
-scenes_file = os.path.join(data_dir, ".scenes.json")
+scenes_file = os.path.join(data_dir, filename)

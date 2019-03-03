@@ -35,6 +35,11 @@ class SettingsWindow(wx.Frame):
         self.nextSubsceneCCSpinCtrl = wx.SpinCtrl(panel, value ='0')
         self.nextSubsceneCCSpinCtrl.SetRange(0, 127)
 
+        livedings_viewOptionText = wx.StaticText(panel, label="Livedings view mode")
+        self.livedingsViewChoices = ["Maximized", "Fullscreen"]
+        self.livedingsViewComboBox = wx.ComboBox(panel, choices = self.livedingsViewChoices, style=wx.CB_READONLY)
+
+
         applyButton = wx.Button(panel, wx.ID_APPLY)
         closeButton = wx.Button(panel, wx.ID_CLOSE)
         
@@ -43,6 +48,7 @@ class SettingsWindow(wx.Frame):
         hbox3 = wx.BoxSizer(wx.HORIZONTAL)
         hbox4 = wx.BoxSizer(wx.HORIZONTAL)
         hbox5 = wx.BoxSizer(wx.HORIZONTAL)
+        hbox6 = wx.BoxSizer(wx.HORIZONTAL)
 
         hbox1.Add(midiInPortText, 1,  wx.EXPAND |wx.ALL, 5)
         hbox1.Add(self.midiInPortComboBox, 1,  wx.EXPAND |wx.ALL, 5)
@@ -53,12 +59,14 @@ class SettingsWindow(wx.Frame):
         hbox4.Add(nextSceneCCText, 1,  wx.EXPAND |wx.ALL, 5)
         hbox4.Add(self.nextSceneCCSpinCtrl, 1, wx.EXPAND |wx.ALL, 5)
         hbox5.Add(nextSubsceneCCText, 1,  wx.EXPAND |wx.ALL, 5)
-        hbox5.Add(self.nextSubsceneCCSpinCtrl, 1, wx.EXPAND |wx.ALL, 5)        
+        hbox5.Add(self.nextSubsceneCCSpinCtrl, 1, wx.EXPAND |wx.ALL, 5)  
+        hbox6.Add(livedings_viewOptionText, 1, wx.EXPAND |wx.ALL, 5)
+        hbox6.Add(self.livedingsViewComboBox, 1,  wx.EXPAND |wx.ALL, 5)
 
+        hbox7 = wx.BoxSizer(wx.HORIZONTAL)
+        hbox7.Add(applyButton, 1, wx.EXPAND | wx.ALL , 10)
+        hbox7.Add(closeButton, 1, wx.EXPAND | wx.ALL , 10)   
 
-        hbox6 = wx.BoxSizer(wx.HORIZONTAL)
-        hbox6.Add(applyButton, 1, wx.EXPAND | wx.ALL , 10)
-        hbox6.Add(closeButton, 1, wx.EXPAND | wx.ALL , 10)   
 
         vbox = wx.BoxSizer(wx.VERTICAL)
         vbox.Add(hbox1, 0, wx.EXPAND |wx.ALL, 5) 
@@ -67,6 +75,7 @@ class SettingsWindow(wx.Frame):
         vbox.Add(hbox4, 0, wx.EXPAND |wx.ALL, 5)    
         vbox.Add(hbox5, 0, wx.EXPAND | wx.ALL, 5)
         vbox.Add(hbox6, 0, wx.EXPAND | wx.ALL, 5)
+        vbox.Add(hbox7, 0, wx.EXPAND | wx.ALL, 5)
 
         applyButton.Bind(wx.EVT_BUTTON, self.OnApplyButton)
         closeButton.Bind(wx.EVT_BUTTON, self.OnCloseButton)
@@ -109,15 +118,16 @@ class SettingsWindow(wx.Frame):
                 "midiOutPort":"",
                 "controlMidiCh":1,
                 "nextSceneCC":0,
-                "nextSubsceneCC":0}
+                "nextSubsceneCC":0,
+                "livedingsView":self.livedingsViewChoices[0]}
 
         self.midiInPortComboBox.SetValue(self.options["midiInPort"])  
         self.midiOutPortComboBox.SetValue(self.options["midiOutPort"])
         self.nextSceneCCSpinCtrl.SetValue(self.options["nextSceneCC"])
         self.nextSubsceneCCSpinCtrl.SetValue(self.options["nextSubsceneCC"])  
-        self.ControlMidiChSpinCtrl.SetValue(self.options["controlMidiCh"])                       
-
-        
+        self.ControlMidiChSpinCtrl.SetValue(self.options["controlMidiCh"])
+        self.livedingsViewComboBox.SetValue(self.options["livedingsView"])
+       
 
     def OnApplyButton(self, event):
         self.options["midiInPort"] = self.midiInPortComboBox.GetValue() 
@@ -125,6 +135,7 @@ class SettingsWindow(wx.Frame):
         self.options["nextSceneCC"] = self.nextSceneCCSpinCtrl.GetValue()        
         self.options["nextSubsceneCC"] = self.nextSubsceneCCSpinCtrl.GetValue()
         self.options["controlMidiCh"] = self.ControlMidiChSpinCtrl.GetValue()
+        self.options["livedingsView"] = self.livedingsViewComboBox.GetValue()
   
         with open(settings_file, 'w') as outFile:
             json.dump(self.options, outFile, sort_keys = True, indent = 4, ensure_ascii = False)
@@ -132,4 +143,3 @@ class SettingsWindow(wx.Frame):
 
     def OnCloseButton(self, event):
         self.Close(True)
-                 
