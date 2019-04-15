@@ -13,6 +13,8 @@ python setup.py install --single-version-externally-managed --root=/
 
 
 ## CHANGELOG
+0.8.1
+- fixed a bug in midi routing. Only one part was processed by the router, now all the active parts have the midi routing.
 
 0.8.0
 - completely changed layout for better visualization in devices like raspberry with small touch-screens.

@@ -1,4 +1,10 @@
-liveset (0.8.0-1) UNRELEASED; urgency=medium
+liveset (0.8.1-1) UNRELEASED; urgency=medium
+
+  * fixed a bug in midi routing. Only one part was processed by the router, now all the active parts have the midi routing. 
+
+ -- Alessandro Filippo <alessandro.filippo@infinito.it>  Mon, 15 Apr 2019 23:21:18 +0200
+
+liveset (0.8.0-1) unstable; urgency=medium
 
   * completely changed layout for better visualization in devices like raspberry with 
     small touch-screens.(main window for scenes and setlist unified, edit window for subscene

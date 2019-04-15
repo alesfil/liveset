@@ -2,7 +2,7 @@ from setuptools import setup, find_packages
 
 setup(
     name = 'liveset',
-    version = '0.8.0',
+    version = '0.8.1',
     author = 'Alessandro Filippo',
     author_email = 'alessandro.filippo@infinito.it',
     license = 'GPLv2+',
