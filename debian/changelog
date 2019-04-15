@@ -1,4 +1,16 @@
-liveset (0.7.6-1) UNRELEASED; urgency=medium
+liveset (0.8.0-1) UNRELEASED; urgency=medium
+
+  * completely changed layout for better visualization in devices like raspberry with 
+    small touch-screens.(main window for scenes and setlist unified, edit window for subscene
+    editing). 
+  * fixed bug in startsession (using subprocess.Popen for calling livesetdings).
+    Now editing to the scene after livedings/mididings call is possible without quitting
+    the program.
+  * added midi in channel routing and keyboard range 
+
+ -- Alessandro Filippo <alessandro.filippo@infinito.it>  Sun, 03 Mar 2019 18:35:36 +0100
+
+liveset (0.7.6-1) unstable; urgency=medium
 
   * Fixed bug in settingswindow (import usb)
   * changed pre filter in livesetdings, permitting MIDI THRU of Notes, Pitchbend, CC, Aftertouch.
