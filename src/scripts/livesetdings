@@ -45,26 +45,24 @@ def Run(filePath):
         subscenes = []
         for subscene in data.scenes[scene]:
             for key in subscene:
-                patch = []             
+                patch = []
+                routing = []             
                 for part in subscene[key]:
 		    patch.append([
     		        Ctrl(out_port, part["CH"], 0, part["CC0"]),
 		        Ctrl(out_port, part["CH"], 32, part["CC32"]), 
 	    	        Program(out_port, part["CH"], part["PC"])
 		        ])
-                if key != "--":
                     lower = mididings.util.note_name(part["Lower"])
                     upper = mididings.util.note_name(part["Upper"]+1)  # +1 is a workaround for Python ranges (not including upper limit)
-                    subscenes.append(Scene(str(key), \
-                                     ChannelFilter(part["InCH"]) >> Channel(part["CH"]) >> KeyFilter(lower, upper), \
-                                     patch))
-        ## if subscenes is empty, add a Scene
+                    routing.append([
+                        ChannelFilter(part["InCH"]) >> Channel(part["CH"]) >> KeyFilter(lower, upper)
+                        ])
+                if key != "--":
+                    subscenes.append(Scene(str(key), routing, patch))
+        ## if subscenes are empty, add a Scene
         if not subscenes:
-            lower = mididings.util.note_name(part["Lower"])
-            upper = mididings.util.note_name(part["Upper"]+1)
-            scenes_dict[str(scene)] = Scene(str(scene), \
-                                            ChannelFilter(part["InCH"]) >> Channel(part["CH"]) >> KeyFilter(lower, upper), \
-                                            patch)
+            scenes_dict[str(scene)] = Scene(str(scene), routing, patch)
         else:
             scenes_dict[str(scene)] = SceneGroup(str(scene), subscenes)
 
